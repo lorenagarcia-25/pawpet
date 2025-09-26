@@ -1,0 +1,57 @@
+body {
+  background-image: url("./img/fondo.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.jugueteria_b {
+   
+   margin-top: -5% ; 
+  margin-right: 70px;
+    margin-left: 80px;
+   margin-bottom:200px;
+    width: 12%;
+}
+
+#titulo_juguete {
+    margin-left: 95px;
+    font-size: 90px;
+    margin-top: 0%;
+    text-align: center;
+    
+}
+
+#titulo_juguete1 {
+    margin-left: 900px;
+    margin-top: -60px;
+}
+
+.item img {
+border-radius: 10%;
+  width: 200px; /* ajusta según tu diseño */
+  height: 200px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+  gap: 20px;
+  justify-items: center; /* Centra los elementos horizontalmente */
+}
+
+.item:nth-child(3) {
+  grid-column: 1 / span 2; /* Ocupa ambas columnas */
+  justify-self: center;    /* Centra el ítem en la fila */
+}
+.item {
+  text-align: center;
+}
+
+
+
+
+
+
+
+
+

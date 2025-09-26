@@ -1,0 +1,110 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Gill Sans MT', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0f0f0;
+}
+.login-wrapper {
+  display: flex;
+  width: 90%;
+  max-width: 1200px;
+  height: 90vh;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.left-panel {
+  flex: 1;
+  background: linear-gradient(to bottom right, #a18cd1, #fbc2eb);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mascotas_img {
+  max-width: 80%;
+  height: auto;
+}
+.right-panel {
+  flex: 1;
+  background: white;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+  .usericon{
+  width: 80px;
+  margin-bottom: 20px;
+  height: auto;
+
+}
+input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.cuadro {
+  padding: 12px;
+  font-size: 18px;
+  background-color: #a18cd1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+ .logo {
+    width: 20%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+@media (max-width: 768px) {
+  .login-wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .left-panel,
+  .right-panel {
+    width: 100%;
+    height: auto;
+  }
+
+  .mascotas_img {
+    max-width: 60%;
+  }
+
+  .logo {
+    width: 60%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+}
+
+  
+
+
+

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %} dashboard {% endblock %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='principal.css') }}">
+
+
+
+{% include 'menu.html' %}
+<div class="container mb-4">
+
+    <h3>Gestion de Usuarios</h3>
+    <table class="table table-striped ">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Username</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usuarios %}
+            <tr>
+                <td>{{ u['idUsuario'] }}</td>
+                <td>{{ u['nombre'] }}</td>
+                <td> {{ u['apellido'] }}</td>
+                <td>{{ u['username'] }}</td>
+                <td>
+                    <button class="btn btn-warning btn-ms"> Editar</button>
+
+
+                    <button class="btn btn-danger btn-ms" data-bs-toggle="modal"
+                        data-bs-target="#ModalEliminar{{u['idUsuario']}}">Eliminar</button>
+                    <!-- the modal-->
+                    <div class="modal" id="ModalEliminar{{u['idUsuario']}}" tabindex="-1" role="dialog"
+                        aria_labelledby="modalLabel{{u['idUsuario']}}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="modalLabel{{u['idUsuario']}}">Confirmar Eliminacion</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    ¿Estas seguro de que deseas eliminar al usuario <strong> {{u['nombre']}}
+                                        {{u['apellido']}}</strong>?
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <a href="{{url_for('eliminar', id= u['idUsuario'])}}"
+                                        class="btn btn-danger">Eliminar</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

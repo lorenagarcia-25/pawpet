@@ -1,0 +1,134 @@
+ #body_index {
+  background-image: url("./img/fondo.png");
+  background-repeat: no-repeat;
+  background-size: cover;}
+
+
+.barra_rosada {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #b591eb;
+  flex-wrap: nowrap; /* evita que se bajen */
+  overflow-x: auto;   /* permite desplazamiento si no cabe */
+  gap:6px;
+  padding: 0px 30px; /*largo y ancho*/
+  margin-top: 15px;
+  height: 79px;
+
+
+}
+
+/* IZQUIERDA */
+.barra_izquierda {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0px;
+}
+
+/* DERECHA */
+.barra_derecha {
+  display: flex;
+  align-items: center;
+  gap: 0px ;
+  flex-shrink: 0;
+}
+
+/* BUSCADOR */
+.buscar {
+  position: relative;
+  flex-shrink: 1;
+}
+
+.buscar input {
+  width: 180px;
+  padding: 10px 10px;
+  font-size: 14px;
+  border: 2px solid #0a0a0a;
+  border-radius: 40px;
+  outline: none;
+  
+}
+
+.bfn {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* ICONOS */
+#mune {
+  width: 50px;
+  
+}
+
+#logo {
+  width: 80px;
+  height: auto;
+}
+.inicio{
+  width: 60px;
+}
+.lusuario {
+  width: 80px;
+}
+.boton-redireccion {
+  color: #0a0a0a;
+}
+
+/* CONTENIDO CENTRAL */
+.contenido_central {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: -30px;
+  text-align: center;
+}
+
+.titulo {
+  font-size: 55px;
+  text-transform: uppercase;
+  font-family: 'Times New Roman', Times, serif;
+  margin-bottom: 0px;
+  color: black;
+  
+}
+
+.imagen {
+  
+  width: 510px;
+  height: auto;
+  margin-top:-15px ;
+}
+
+/* RESPONSIVE AJUSTADO */
+@media (max-width: 700px) {    /*-@ Esto hace que los estilos dentro de ese bloque solo se apliquen si la pantalla es menor a 600px.*/
+  .buscar input {
+    width: 120px;
+    font-size: 13px;
+  }
+
+  .barra_rosada {
+    padding: 5px 10px; /*tamaño de cuando se encoge*/
+  }
+
+  #logo {
+    width: 80px;
+  }
+
+  #mune, .lusuario,.inicio {
+    width: 50px;
+  }
+  .titulo{
+   width:500px ;
+  }
+  .imagen{
+   width: 480px;
+  }
+}
+
+

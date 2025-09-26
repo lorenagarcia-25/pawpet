@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %} login {% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Huellitas Felices</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/huellitas_felices.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="login-wrapper">
+    
+    <!-- Panel izquierdo con imagen -->
+    <div class="left-panel">
+      <img src="{{ url_for('static', filename='img/login_perrito.png') }}" alt="Mascotas" class="mascotas-img">
+    </div>
+
+    <!-- Panel derecho con formulario -->
+  <div class="right-panel">
+  <h1>¡Bienvenido de nuevo!</h1>
+  <img src="{{ url_for('static', filename='img/usuario_logo.png') }}" class="user-icon">
+  <img src="{{ url_for('static', filename='img/huellitas_felices.png') }}" class="logo">
+
+  <div class="form-container">
+    <form action="{{ url_for('login') }}" method="POST">
+  
+      <input type="email" class="form-control" name="username" id="username" placeholder="name@example.com" required>
+      <label for="email" class="form-label"></label>
+
+      
+      <input type="password" class="form-control" name="password" id="password" value="" placeholder="Contraseña" required>
+      <label for="password" class="form-label"></label>
+
+      <div class="links">
+        <a href="{{ url_for('recuperar_contraseña') }}">¿Has olvidado tu Contraseña?</a>
+        <a href="{{ url_for('registrarse') }}">Registrarse</a>
+      </div>
+
+      <button type="submit" class="cuadro">Siguiente</button>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
+ {% endblock %}

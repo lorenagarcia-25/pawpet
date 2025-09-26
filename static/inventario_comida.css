@@ -1,0 +1,101 @@
+body {
+  background-image: url("./img/fondo.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
+
+
+   
+    
+  
+    
+.titu {
+  display: flex;
+  align-items: center;
+  margin-top: -8px; 
+  text-align: center;
+  margin-left: 25%;
+  font-family: 'Times New Roman', Times, serif; /*tipografia*/
+}
+
+#titulo_comida {
+    margin-left: 40px; /*acomodar verticamene con marguenes*/
+    font-size: 90px; /*tamaño*/
+  text-transform: uppercase; /*para poner las letras en mayuscula*/
+    margin-top: 0%;  /*altura veticalmente con margenes*/
+
+ }
+
+  #titulo_comida1 {
+    margin-left: -600px;
+   margin-top: 100px;
+}
+
+
+
+.grid-container {
+  display: flex;
+  justify-content: center; /* Centra las imágenes horizontalmente */
+  gap: 200px; /* Espacio entre las imágenes */
+  font-size: 20px; /*tamaño de las letras*/
+  font-family: 'Times New Roman', Times, serif; /*tipografia*/
+  
+}
+   
+
+
+ .img1{
+  width: 220px;
+
+
+ }
+  
+ .img2{
+ width: 220px;
+  
+ }
+ .img3{
+ width: 190px;
+
+ }
+
+ #gato
+ {
+ color: #000;
+ margin-top:15%;
+    margin-left: 30px;
+  
+  
+ }
+
+ #conejos
+ {
+    color: #000;
+    margin-top:15%;
+    margin-left: -20px;
+   
+ }
+
+ #perros
+ {
+    color: #000;
+    margin-top:15%;
+    margin-left:20px;
+    
+
+ }
+a {
+  text-decoration: none; /* le dicimos q nos es necesaria la decoracion en este caso estaba subrayando*/
+  
+}
+
+
+
+
+
+
+
+
+
+

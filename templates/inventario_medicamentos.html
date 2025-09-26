@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>medicamentos</title>
+   <link rel="stylesheet" href="{{ url_for('static', filename='medicamentos.css') }}">
+       <link rel="stylesheet" href="{{ url_for('static', filename='principal.css') }}">
+
+</head>
+
+<body> 
+        {% include 'menu.html' %}
+
+    <header>
+        <h1 id="titulo_medicamento">Medicamentos <h1>
+                <p id="titulo_medicamento1"> inventario </p>
+    </header>
+
+
+
+   <div class="medicamentos_a"></div>
+  <section id="imagenes">
+  <div class="grid-container">
+    <div class="item">
+      <img src="{{ url_for('static', filename='img/antipulgas1.png') }}" alt="">
+      <h1>Antipulgas para roedores</h1>
+    </div>
+    <div class="item">
+      <img src="{{ url_for('static', filename='img/antipulgas2.png') }}"  alt="">
+      <h1>Antipulgas para gatos</h1>
+    </div>
+    <div class="item">
+      <img src="{{ url_for('static', filename='img/antipulgas3.png') }}" alt="">
+      <h1>Antipulgas para perros</h1>
+    </div>
+    <div class="item">
+      <img src="{{ url_for('static', filename='img/desparacitante1.png') }}"  alt="">
+      <h1>Desparacitante para roedores</h1>
+    </div>
+    <div class="item">
+      <img src="{{ url_for('static', filename='img/desparacitante2.png') }}"  alt="">
+      <h1>Desparacitante para gatos</h1>
+    </div>
+    <div class="item">
+      <img src="{{ url_for('static', filename='img/despacitante3.png') }}"  alt="">
+      <h1>Desparacitante para perros</h1>
+    </div>
+    
+    
+
+  
+</section>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

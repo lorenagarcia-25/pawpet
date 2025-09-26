@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>inventario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='alimentos_conejos y roedores.css') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='principal.css') }}">
+
+</head>
+
+<body> 
+   
+{% include 'menu.html' %}
+    
+<div class=titu>
+  
+        <h1 id="titulo_conejo">Alimentos conejos y roedores <h1>
+       <p id="titulo_conejo1"> inventario </p>
+    
+</div>
+
+<div class="grid-container">
+    <a>
+      <img src="{{ url_for('static', filename='img/conejo1.png') }}"  alt=imagen class="img1">  
+       <p id="marca1">Bunny </p>
+   </a>
+   <a>
+      <img src="{{ url_for('static', filename='img/conejo2.png') }}" alt="imagen" class="img2"  > 
+      <p id="marca2">Vitagrano</p>
+   </a>
+
+   <a>
+      <img src="{{ url_for('static', filename='img/conejo3.png') }}" alt="imagen" class="img3">
+      <p id="marca3">Mazuri</p>
+      </a>
+    </div>
+ 
+    
+</section>
+
+</body>
+
+</html>

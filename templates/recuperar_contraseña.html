@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas Felices</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='contraseña.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/huellitas_felices.png') }}">
+</head>
+<body>
+  <div class="login-wrapper">
+    
+    <!-- Panel izquierdo con imagen -->
+    <div class="left-panel">
+      <img src="{{ url_for('static', filename='img/login_perrito.png') }}" alt="Mascotas" class="mascotas_img">
+    </div>
+
+    <!-- Panel derecho con formulario -->
+    <div class="right-panel">
+      <h1>¡Recuperación de contraseña!</h1>
+      <p>Encuentre su usuario, ingresando la dirección del correo electronico que registro al crear la cuenta, por favor digitelo.</p>
+      <img src="{{ url_for('static', filename='img/huellitas_felices.png') }}" class="logo">
+
+      <div class="form-container">
+        <input type="email" placeholder="Correo" required>
+
+        <input type="submit" name="Entrar" value="Enviar" class="boton-redireccion">
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

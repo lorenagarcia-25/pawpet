@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>inventario</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='inventario_accesorios.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='principal.css') }}">
+</head>
+
+<body>
+
+  {% include 'menu.html' %}
+  <div class=titu>
+
+    <h1 id="titulo_accesorios">Accesorios <h1>
+        <p id="titulo_accesorios1"> inventario </p>
+
+  </div>
+
+
+  <div class="grid-container">
+    <a>
+      <img src="{{ url_for('static', filename='img/  hh correa.png') }}" alt=imagen class="img1">
+      <p id="correa">correa </p>
+    </a>
+    <a>
+      <img src="{{ url_for('static', filename='img/al.conejos.png') }}" alt="imagen" class="img2">
+      <p id="conejos">Comida para conejos y roedores</p>
+    </a>
+    <a>
+      <img src="{{ url_for('static', filename='img/al.perros.png') }}" alt="imagen" class="img3">
+      <p id="perros">Comida para perros</p>
+  </div>
+  </a>
+
+
+
+
+  </section>
+
+</body>
+
+</html>
+
+</body>
+
+</html>

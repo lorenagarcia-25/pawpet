@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>inventario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='alimentos_perros.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='principal.css') }}">
+
+</head>
+
+<body>
+    {% include 'menu.html' %}
+
+    <div class=titu>
+
+        <h1 id="titulo_perro">Alimentos para perros <h1>
+                <p id="titulo_perro1"> inventario </p>
+
+    </div>
+
+    <div class="grid-container">
+        <a>
+            <img src="{{ url_for('static', filename='img/perro1.png') }}" alt=imagen class="img1">
+            <p id="marca1">Dog chow </p>
+        </a>
+        <a>
+            <img src="{{ url_for('static', filename='img/perro2.png') }}" alt="imagen" class="img2">
+            <p id="marca2">Ringo</p>
+        </a>
+
+        <a>
+            <img src="{{ url_for('static', filename='img/perro3.png') }}" alt="imagen" class="img3">
+            <p id="marca3">Dogourment</p>
+        </a>
+    </div>
+
+
+    </section>
+
+</body>
+
+</html>
