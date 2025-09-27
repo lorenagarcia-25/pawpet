@@ -36,28 +36,7 @@
 }
 
 /* BUSCADOR */
-.buscar {
-  position: relative;
-  flex-shrink: 1;
-}
 
-.buscar input {
-  width: 180px;
-  padding: 10px 10px;
-  font-size: 14px;
-  border: 2px solid #0a0a0a;
-  border-radius: 40px;
-  outline: none;
-  
-}
-
-.bfn {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
 
 /* ICONOS */
 #mune {
