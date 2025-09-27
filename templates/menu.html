@@ -85,13 +85,12 @@
 
 
       <div class="search-bar">
-        <form name="formSearch" method="POST" action="{{ url_for('BuscarEmpleado') }}" class="search"
+        <form name="formSearch" method="POST" action="{{ url_for('dashboard') }}" class="search"
           autocomplete="off">
-          <input type="search" name="buscar" class="search__input" placeholder="Buscador con Python - Flask & MySQL"
-            required>
+          <input type="search" name="buscar" class="search__input" placeholder="Buscador">
+            
           <button type="submit" class="search__btn">
             <i class="bi bi-search search__icon"></i>
-            Buscar
           </button>
         </form>
       </div>
@@ -103,13 +102,7 @@
 
 
       <div id="RespBusq">
-        {% block body %}
-
-        <h1 class="text-center">
-          Buscador con PYHTON
-        </h1>
-
-        {% endblock %}
+       
       </div>
 
 

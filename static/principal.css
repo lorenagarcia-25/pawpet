@@ -1,113 +1,301 @@
  #body_index {
-  background-image: url("./img/fondo.png");
-  background-repeat: no-repeat;
-  background-size: cover;}
+   background-image: url("./img/fondo.png");
+   background-repeat: no-repeat;
+   background-size: cover;
+ }
 
 
-.barra_rosada {
+ .barra_rosada {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   background-color: #b591eb;
+   flex-wrap: nowrap;
+   /* evita que se bajen */
+   overflow-x: auto;
+   /* permite desplazamiento si no cabe */
+   gap: 6px;
+   padding: 0px 30px;
+   /*largo y ancho*/
+   margin-top: 15px;
+   height: 79px;
+
+
+ }
+
+ /* IZQUIERDA */
+ .barra_izquierda {
+   display: flex;
+   align-items: center;
+   gap: 5px;
+   flex-shrink: 0px;
+ }
+
+ /* DERECHA */
+ .barra_derecha {
+   display: flex;
+   align-items: center;
+   gap: 0px;
+   flex-shrink: 0;
+ }
+
+ /* BUSCADOR */
+
+
+  header {
+   /* position: fixed;*/
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 10%;
+    height: 80px;
+    background-color: #318ebb;
+    box-shadow: 0 0px 8px rgba(212, 212, 212, 0.4);
+  }
+  
+  header nav {
+    display: flex;
+    flex: 7;
+  }
+  header nav .search-bar {
+    display: flex;
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  header nav .search-bar .search {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+  header nav .search-bar .search .search__input {
+    display: flex;
+    flex: 1;
+    padding: 1.2rem 1rem 1.2rem 4rem;
+    height: 40px;
+    font-size: 0.9rem;
+    color: #4a4a4a;
+    border: none;
+    border-radius: 0;
+    position: relative;
+    right: 0;
+    letter-spacing: 0.05rem;
+    background: url(https://cdn1.iconfinder.com/data/icons/hawcons/32/698956-icon-111-search-128.png) #ececec;
+    background-repeat: no-repeat;
+    background-position: 1rem 50%;
+    background-size: 2rem;
+    outline: 0;
+    transition: background 0.3s ease-out, opacity 0.5s ease-out;
+  }
+  header nav .search-bar .search .search__input:focus {
+    background: url(https://cdn1.iconfinder.com/data/icons/hawcons/32/698956-icon-111-search-128.png) no-repeat 1rem 50% #ffffff;
+    background-size: 2rem;
+  }
+  header nav .search-bar .search .search__btn {
+    background: #36474f;
+    height: 40px;
+    border: none;
+    width: 150px;
+    color: #fff;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    cursor: pointer;
+    outline: 0;
+    transition: all 0.4s ease-out;
+  }
+  header nav .search-bar .search .search__btn:hover {
+    background: #263137;
+  }
+  header .menu {
+    display: flex;
+    flex: 2;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 2rem;
+    font-size: 2rem;
+    color: #fff;
+    height: 80px;
+    line-height: 80px;
+    cursor: pointer;
+  }
+  
+ .mt-50{
+  margin-top: 50px;
+ }
+  
+  .hide-element {
+    display: none !important;
+  }
+  
+  .mobile-search {
+    margin: 0 1em;
+    opacity: 1 !important;
+    visibility: visible !important;
+    width: 100%;
+  }
+  
+  .close-icon {
+    color: #909090 !important;
+    position: absolute !important;
+    right: 8% !important;
+    font-size: 1rem;
+  }
+  
+  @-webkit-keyframes rotation-show {
+    0% {
+      transform: perspective(1000px) rotateX(-90deg);
+    }
+    100% {
+      transform: perspective(1000px) translateY(0);
+    }
+  }
+  
+  @keyframes rotation-show {
+    0% {
+      transform: perspective(1000px) rotateX(-90deg);
+    }
+    100% {
+      transform: perspective(1000px) translateY(0);
+    }
+  }
+
+  .bi-code-slash{
+    color: #fff;
+  }
+  .search__icon{
+    color: #fff;
+  }
+  .input_vacio{
+    border: 1px solid red !important;
+    background-color: #fff !important;
+  }
+  .busq{
+    font-size: 35px;
+    font-weight: 800;
+  }
+  .text-center{
+    text-align: center;
+  }
+  .colorCrimson{
+    color: crimson;
+    font-size: 25px;
+    font-weight: 700;
+  }
+#RespBusq{
+  width: 15%;
+  height: auto;
+  margin: 0 auto;
+  padding: 20px 30px;
+  margin-top: 50px;
+ 
+ 
+}
+h4{
+  margin-bottom: 30px;
+}
+p{
+  font-size: 15px;
+  color: #263137 !important;
+  font-weight: bold;
+}
+p strong{
+  color: green !important;
+}
+section{
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  background-color: #b591eb;
-  flex-wrap: nowrap; /* evita que se bajen */
-  overflow-x: auto;   /* permite desplazamiento si no cabe */
-  gap:6px;
-  padding: 0px 30px; /*largo y ancho*/
-  margin-top: 15px;
-  height: 79px;
-
-
-}
-
-/* IZQUIERDA */
-.barra_izquierda {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex-shrink: 0px;
-}
-
-/* DERECHA */
-.barra_derecha {
-  display: flex;
-  align-items: center;
-  gap: 0px ;
-  flex-shrink: 0;
-}
-
-/* BUSCADOR */
-
-
-/* ICONOS */
-#mune {
-  width: 50px;
-  
-}
-
-#logo {
-  width: 80px;
-  height: auto;
-}
-.inicio{
-  width: 60px;
-}
-.lusuario {
-  width: 80px;
-}
-.boton-redireccion {
-  color: #0a0a0a;
-}
-
-/* CONTENIDO CENTRAL */
-.contenido_central {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: -30px;
-  text-align: center;
-}
-
-.titulo {
-  font-size: 55px;
-  text-transform: uppercase;
-  font-family: 'Times New Roman', Times, serif;
-  margin-bottom: 0px;
-  color: black;
-  
-}
-
-.imagen {
-  
-  width: 510px;
-  height: auto;
-  margin-top:-15px ;
-}
-
-/* RESPONSIVE AJUSTADO */
-@media (max-width: 700px) {    /*-@ Esto hace que los estilos dentro de ese bloque solo se apliquen si la pantalla es menor a 600px.*/
-  .buscar input {
-    width: 120px;
-    font-size: 13px;
-  }
-
-  .barra_rosada {
-    padding: 5px 10px; /*tamaño de cuando se encoge*/
-  }
-
-  #logo {
-    width: 80px;
-  }
-
-  #mune, .lusuario,.inicio {
-    width: 50px;
-  }
-  .titulo{
-   width:500px ;
-  }
-  .imagen{
-   width: 480px;
-  }
 }
 
 
+ 
+
+ 
+
+
+ /* ICONOS */
+ #mune {
+   width: 50px;
+
+ }
+
+ #logo {
+   width: 80px;
+   height: auto;
+ }
+
+ .inicio {
+   width: 60px;
+ }
+
+ .lusuario {
+   width: 80px;
+ }
+
+ .boton-redireccion {
+   color: #0a0a0a;
+ }
+
+ /* CONTENIDO CENTRAL */
+ .contenido_central {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   margin-top: -30px;
+   text-align: center;
+ }
+
+ .titulo {
+   font-size: 55px;
+   text-transform: uppercase;
+   font-family: 'Times New Roman', Times, serif;
+   margin-bottom: 0px;
+   color: black;
+
+ }
+
+ .imagen {
+
+   width: 510px;
+   height: auto;
+   margin-top: -15px;
+ }
+
+ /* RESPONSIVE AJUSTADO */
+ @media (max-width: 700px) {
+
+   /*-@ Esto hace que los estilos dentro de ese bloque solo se apliquen si la pantalla es menor a 600px.*/
+   .buscar input {
+     width: 120px;
+     font-size: 13px;
+   }
+
+   .barra_rosada {
+     padding: 5px 10px;
+     /*tamaño de cuando se encoge*/
+   }
+
+   #logo {
+     width: 80px;
+   }
+
+   #mune,
+   .lusuario,
+   .inicio {
+     width: 50px;
+   }
+
+   .titulo {
+     width: 500px;
+   }
+
+   .imagen {
+     width: 480px;
+   }
+ }
