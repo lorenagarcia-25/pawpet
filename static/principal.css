@@ -41,7 +41,6 @@
 
  /* BUSCADOR */
 
-
   header {
    /* position: fixed;*/
     top: 0;
@@ -49,7 +48,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 10%;
+    width: 100%;
     height: 80px;
     background-color: #318ebb;
     box-shadow: 0 0px 8px rgba(212, 212, 212, 0.4);
@@ -98,7 +97,7 @@
     height: 40px;
     border: none;
     width: 150px;
-    color: #fff;
+  color: #fff;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.1rem;
@@ -166,7 +165,7 @@
     color: #fff;
   }
   .search__icon{
-    color: #fff;
+    color: #161616;
   }
   .input_vacio{
     border: 1px solid red !important;
@@ -185,13 +184,11 @@
     font-weight: 700;
   }
 #RespBusq{
-  width: 15%;
+ 
   height: auto;
   margin: 0 auto;
   padding: 20px 30px;
-  margin-top: 50px;
- 
- 
+  box-shadow: rgba(0, 0, 0, .02) 0px 3px 8px;
 }
 h4{
   margin-bottom: 30px;
@@ -211,11 +208,6 @@ section{
   display: flex;
   justify-content: space-between;
 }
-
-
- 
-
- 
 
 
  /* ICONOS */
@@ -266,6 +258,8 @@ section{
    height: auto;
    margin-top: -15px;
  }
+ 
+
 
  /* RESPONSIVE AJUSTADO */
  @media (max-width: 700px) {

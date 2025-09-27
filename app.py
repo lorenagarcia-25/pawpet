@@ -67,19 +67,14 @@ def registrarse():
     return render_template('registrarse.html')
 
     
-
-
 @app.route('/recuperar_contraseña')
 def recuperar_contraseña():
     return render_template('recuperar_contraseña.html')
 
 @app.route('/inventario')
-def inventario ():
+def inventario():
     #if 'rol' not in session or session['rol'] !='admin'
     return render_template('inventario.html')
-
-
-
 
 @app.route('/sobre_nosotras')
 def sobre_nosotras ():
