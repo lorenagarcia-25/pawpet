@@ -15,8 +15,8 @@ app.secret_key = 'tu_clave_secreta_super_segura'
 @app.route("/")
 def index():
     #usuamos render_template para mostar el archivo 'index,html'
- return render_template ('index.html')
-
+ return render_template ('index.html') 
+ 
 @app.route('/login', methods =['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -108,5 +108,18 @@ def eliminar(id):
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
+
+    @app.route('/inventario')
+    def inventario():
+        if 'rol' not in session or session ['rol'] != 'admin': 
+         flash("acceso restringido solo para los administradores")                                  
+        return redirect(url_for('login'))
+        return render_template('inventario.html')
+                        
+       
+
+    
+       
+
     
 

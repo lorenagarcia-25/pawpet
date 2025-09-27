@@ -70,6 +70,16 @@
 
 <body>
 
+  { % if session.get('rol')== 'admin' %}
+       <li class="nav-iten"> 
+        <a class="nav-link text-white" href="{{url_for('dashboard')}}">dashboard</a>
+        </li>
+
+        <li class="nav-iten"> 
+        <a class="nav-link text-white" href="{{url_for('inventario')}}">inventrario</a>
+
+        </li>
+        {% endif %}
 
   <div class="barra_rosada">
     <!-- IZQUIERDA: menú y logo -->
@@ -106,7 +116,11 @@
 
 
       <div id="RespBusq">
-       
+       { % if session.get('rol')== 'admin' %}
+       <li class="nav-iten"> 
+        <a class="nav-link text" href="{{url_for('dashboard')}}"></a>
+
+       </li>
       </div>
 
 
