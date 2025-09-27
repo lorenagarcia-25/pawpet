@@ -105,20 +105,15 @@
     <div class="barra_derecha">
 
 
-      <div class="search-bar">
-        <form name="formSearch" method="POST" action="{{ url_for('inventario') }}" class="search" autocomplete="off">
-          <input type="search" name="buscar" class="search__input" placeholder="Buscador">
-
-          <button type="submit" class="search__btn">
-            <i class="bi bi-search search__icon"></i>
-          </button>
-        </form>
-      </div>
-      </nav>
-      <div class="menu">
-        <i class="ion-drag menu__icon"></i>
-      </div>
-      </header>
+      <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand">Navbar</a>
+    <form class="d-flex">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
 
 
       <div id="RespBusq">
