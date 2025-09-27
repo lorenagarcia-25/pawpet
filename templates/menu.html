@@ -9,6 +9,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='inventario_accesorios.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
   <style>
     /* Contenedor del menú */
     .menu-container {
@@ -26,9 +29,8 @@
       display: none;
       flex-direction: column;
       background-color: #8ab4f2;
-      padding: 100px;
       margin-top: -15px;
-      height: 430px;
+      height: 250px;
       box-sizing: border-box;
     }
 
@@ -39,11 +41,13 @@
 
     /* Ítems del menú */
     .dropdown-item {
-      padding: 10px;
-      color: #000;
+      color: #181717;
       text-align: center;
       width: 100%;
-      font-family: 'Times New Roman', Times, serif;
+      font-family: "DM Serif Text", serif;
+     font-weight: 400;
+     font-style: normal;
+
     }
 
     @media (max-width: 700px) {
@@ -85,7 +89,7 @@
 
 
       <div class="search-bar">
-        <form name="formSearch" method="POST" action="{{ url_for('dashboard') }}" class="search"
+        <form name="formSearch" method="POST" action="{{ url_for('inventario') }}" class="search"
           autocomplete="off">
           <input type="search" name="buscar" class="search__input" placeholder="Buscador">
             
@@ -135,37 +139,37 @@
       <ul class="dropdown-menu">
         <u>
           <ul>
-            <li><a class="dropdown-item" href="{{url_for('inventario_comida')}}">Comida</a></li>
+            <a class="dropdown-item" href="{{url_for('inventario_comida')}}">Comida</a>
           </ul>
         </u>
         <u>
           <ul>
-            <li><a class="dropdown-item" href="{{url_for('inventario_medicamentos')}}">Medicamentos</a></li>
+            <a class="dropdown-item" href="{{url_for('inventario_medicamentos')}}">Medicamentos</a>
           </ul>
         </u>
         <u>
           <ul>
-            <li><a class="dropdown-item" href="{{url_for('inventario_higiene')}}">Higiene</a></li>
+            <a class="dropdown-item" href="{{url_for('inventario_higiene')}}">Higiene</a>
           </ul>
         </u>
         <u>
           <ul>
-            <li><a class="dropdown-item" href="{{url_for('inventario_juguetes')}}">Juguetes</a></li>
+            <a class="dropdown-item" href="{{url_for('inventario_juguetes')}}">Juguetes</a>
           </ul>
         </u>
         <u>
           <ul>
-            <li><a class="dropdown-item" href="{{url_for('inventario_accesorios')}}">Accesorios</a></li>
+            <a class="dropdown-item" href="{{url_for('inventario_accesorios')}}">Accesorios</a>
           </ul>
         </u>
         <u>
           <ul>
-            <li><a class="dropdown-item" href="{{url_for('sobre_nosotras')}}">Sobre Nosotras</a></li>
+            <a class="dropdown-item" href="{{url_for('sobre_nosotras')}}">Sobre Nosotras</a>
           </ul>
         </u>
         <u>
           <ul>
-            <li><a class="dropdown-item" href="{{url_for('dashboard')}}">usuarios</a></li>
+            <a class="dropdown-item" href="{{url_for('dashboard')}}">usuarios</a>
           </ul>
         </u>
 
