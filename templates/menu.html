@@ -60,8 +60,8 @@
         padding: 5px;
         height: 230px;
         margin-top: -20px;
-        
-       
+
+
       }
 
       .dropdown-item {
@@ -77,6 +77,16 @@
 
 <body>
 
+  { % if session.get('rol')== 'admin' %}
+  <li class="nav-iten">
+    <a class="nav-link text-white" href="{{url_for('dashboard')}}">dashboard</a>
+  </li>
+
+  <li class="nav-iten">
+    <a class="nav-link text-white" href="{{url_for('inventario')}}">inventrario</a>
+
+  </li>
+  {% endif %}
 
   <div class="barra_rosada">
     <!-- IZQUIERDA: menú y logo -->
@@ -112,7 +122,6 @@
 
 
       <div id="RespBusq">
-
       </div>
 
 
@@ -143,16 +152,16 @@
 
       </button>
       <ul class="dropdown-menu">
-        
 
-          <a text-decoration: none class="dropdown-item" href=>Comida</a>
-          <a class="dropdown-item" href="">Medicamentos</a>
-          <a class="dropdown-item" href="">Higiene</a>
-          <a class="dropdown-item" href="">Juguetes</a>
-          <a class="dropdown-item" href="">Accesorios</a>
-          <a class="dropdown-item" href="">Sobre Nosotras</a>
-          <a class="dropdown-item" href="">usuarios</a>
-     </ul>
+
+        <a text-decoration: none class="dropdown-item" href=>Comida</a>
+        <a class="dropdown-item" href="">Medicamentos</a>
+        <a class="dropdown-item" href="">Higiene</a>
+        <a class="dropdown-item" href="">Juguetes</a>
+        <a class="dropdown-item" href="">Accesorios</a>
+        <a class="dropdown-item" href="">Sobre Nosotras</a>
+        <a class="dropdown-item" href="">usuarios</a>
+      </ul>
     </div>
 
 
