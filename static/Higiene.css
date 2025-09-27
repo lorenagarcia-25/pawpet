@@ -1,0 +1,50 @@
+body {
+  background-image: url("./img/fondo.png");
+  background-repeat: no-repeat;
+  background-size: cover;}
+
+
+
+  .titu {
+  display: flex;
+  align-items: center;
+  margin-top: -5px; 
+  text-align: center;
+  margin-left: 30%;
+  font-family:'times new roman'
+  ; /*tipografia*/
+}
+
+#titulo_higiene {
+    margin-left: 130px; /*acomodar verticamene con marguenes*/
+    font-size: 90px; /*tamaño*/
+  text-transform: uppercase; /*para poner las letras en mayuscula*/
+    margin-top: 0%;  /*altura veticalmente con margenes*/
+
+ }
+
+  #titulo_higiene1 {
+    margin-left: -400px;
+   margin-top: 100px;
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
+  gap: 180px; /* espacio entre elementos */
+  padding: 20px;
+  text-align: center;
+}
+
+.img1 {
+border-radius: 10%;
+  width: 200px; /* ajusta según tu diseño */
+  height: 200px;
+}
+.img2 {
+border-radius: 10%;
+  width: 200px; /* ajusta según tu diseño */
+  height: 200px;
+}
+
