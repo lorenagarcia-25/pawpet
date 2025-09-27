@@ -73,38 +73,13 @@ def registrarse():
 def recuperar_contraseña():
     return render_template('recuperar_contraseña.html')
 
-@app.route('/inventario_comida')
-def inventario_comida ():
+@app.route('/inventario')
+def inventario ():
     #if 'rol' not in session or session['rol'] !='admin'
-    return render_template('inventario_comida.html')
-@app.route('/alimentos_gatos')
-def alimentos_gatos ():
-    return render_template('alimentos_gatos.html')
-
-@app.route('/alimentos_perros')
-def alimentos_perros ():
-    return render_template('alimentos_perros.html')
-
-@app.route('/alimentos_conejos_y_roedores')
-def alimentos_conejos_y_roedores():
-    return render_template('alimentos_conejos_y_roedores.html')
+    return render_template('inventario.html')
 
 
-@app.route('/inventario_medicamentos')
-def inventario_medicamentos ():
-    return render_template('inventario_medicamentos.html')
 
-@app.route('/inventario_higiene')
-def inventario_higiene ():
-    return render_template('inventario_higiene.html')
-
-@app.route('/inventario_accesorios')
-def inventario_accesorios ():
-    return render_template('inventario_accesorios.html')
-
-@app.route('/inventario_juguetes')
-def inventario_juguetes ():
-    return render_template('inventario_juguetes.html')
 
 @app.route('/sobre_nosotras')
 def sobre_nosotras ():
