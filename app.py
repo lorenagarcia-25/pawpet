@@ -71,10 +71,7 @@ def registrarse():
 def recuperar_contraseña():
     return render_template('recuperar_contraseña.html')
 
-@app.route('/inventario')
-def inventario():
-    #if 'rol' not in session or session['rol'] !='admin'
-    return render_template('inventario.html')
+
 
 @app.route('/sobre_nosotras')
 def sobre_nosotras ():
@@ -100,6 +97,18 @@ def eliminar(id):
     cursor.close()
     flash ('Usuario eliminado')
     return redirect(url_for('dashboard'))
+
+@app.route('/inventario')
+def inventario():
+    if 'rol' not in session or session['rol'] != 'admin':
+        flash("acceso  restringido solo parfa los administradores")
+        return redirect(url_for('login'))
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM productos")
+    productos = cursor.fetchall()
+    cursor.close()
+    return render_template('inventario.html', productos=productos)
+    
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

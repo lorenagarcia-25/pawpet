@@ -1,54 +1,50 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>inventario</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='inventario.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='principal.css') }}">
-
-
-
-</head>
-
-<body>
-
-
-  {% include 'menu.html' %}
-
-  <div class=titu>
-
-    <h1 id="titulo_comida">Alimentos <h1>
-        <p id="titulo_comida1"> inventario </p>
-
-  </div>
-
-
-  <div class="grid-container">
-    <a href="{{ url_for('alimentos_gatos') }} ">
-      <img src="{{ url_for('static', filename='img/al.gatos.png') }}" alt=imagen class="img1">
-      <p id="gato">Comida para gatos </p>
-    </a>
-    <a href="{{url_for('alimentos_conejos_y_roedores')}}">
-      <img src="{{ url_for('static', filename='img/al.conejos.png') }}" alt="imagen" class="img2">
-      <p id="conejos">Comida para conejos y roedores</p>
-    </a>
-    <a href="{{url_for('alimentos_perros')}} ">
-      <img src="{{ url_for('static', filename='img/al.perros.png') }}" alt="imagen" class="img3">
-      <p id="perros">Comida para perros</p>
-  </div>
-  </a>
-
-
-
-
-  </section>
 {% extends 'base.html' %}
-{% block title %} inventario {% endblock %}
+
+{% block title %}inventario {%endblock%}
+
 {% block content %}
 
 
-</body>
+{% endblock %}
+<div class="container mb-4">
+  <h3>Gestion de Inventario</h3>
 
-</html>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">Agregar productos</button>
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Imagen</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in productos %}
+      <tr>
+        <td><img src="{{url_for('static', filename='uploads/'+ p.imagen)}}" width="80"></td>
+        <td>{{ p.nombre_productos }}</td>
+        <td>${{ p.precios }}</td>
+        <td>{{ p.cantidad }}</td>
+        <td></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </th>
+  <th>
+</div>
+
+<div class="modal fade" id="modalAgregar" tabindex="-1">
+  <div class="modal-dialog">
+    <form method="POST" action="{{url_for('agregar_producto')}}">
+      <div>
+
+      </div>
+
+    </form>
+
+
+  </div>
+</div>
