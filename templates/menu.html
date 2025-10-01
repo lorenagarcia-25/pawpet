@@ -117,7 +117,7 @@
       </div>
   
 
-        {%if session.get('rol')== 'admin'%}
+        {% if session.get('rol') == 'admin' %}
         <li class="nav-item">
           <a class="nav-link text-white" href="{{url_for('dashboard')}}">dashboard</a>
         </li>
