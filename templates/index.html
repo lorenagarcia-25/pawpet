@@ -2,28 +2,30 @@
 {% block title %} index {% endblock %}
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Huellitas Felices</title>
   <link rel="shortcut icon" href="{{ url_for('static', filename='img/huellitas_felices.png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='principal.css') }}">
   <script src="https://kit.fontawesome.com/d5cb297f2d.js" crossorigin="anonymous"></script>
-</head>
 
-<body id="body_index">
 
-  {% include 'menu.html' %}
+<body id="body_index"></body>
+
+
 
   <!-- Contenido central -->
   <div class="contenido_central">
     <h1 class="titulo">INVENTARIO</h1>
-    <img src="{{ url_for('static', filename='img/Index.png') }}" alt="imagen" class="imagen">
+    <!-- <img src="{{ url_for('static', filename='img/Index.png') }}" alt="imagen" class="imagen">-->
   </div>
+<div class="container overflow-hidden">
+    <div class="row gy-4 gy-xxl-5">
+{% for p in productos %}
+<img src="{{url_for('static',filename='uploads/'+ p.imagen)}}" alt="{{p.nombre_producto}}">
+{% endfor %}
 
+
+  </div>
+</div>
+  
   <nav>
     <a href="" class="nav-link"></a><a href="" class="nav-link"></a><a href="" class="nav-link"></a>
   </nav>
@@ -31,5 +33,4 @@
 
 </body>
 
-</html>
 {% endblock %}

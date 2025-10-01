@@ -3,9 +3,9 @@
 {% block title %} inventario {%endblock%}
 
 {% block content %}
+ <link rel="stylesheet" href="{{ url_for('static', filename='inventario.css') }}">
 
 
-{% endblock %}
 <div class="container mb-4">
   <h3>Gestion de Inventario</h3>
 
@@ -24,8 +24,8 @@
       {% for p in productos %}
       <tr>
         <td><img src="{{url_for('static', filename='uploads/'+ p.imagen)}}" width="80"></td>
-        <td>{{ p.nombre_productos }}</td>
-        <td>${{ p.precios }}</td>
+        <td>{{ p.nombre_producto }}</td>
+        <td>${{ p.precio }}</td>
         <td>{{ p.cantidad }}</td>
         <td></td>
       </tr>
@@ -36,15 +36,54 @@
   <th>
 </div>
 
-<div class="modal fade" id="modalAgregar" tabindex="-1">
+<!-- The Modal -->
+<div class="modal" id="modalAgregar">
   <div class="modal-dialog">
-    <form method="POST" action="{{url_for('agregar_producto')}}">
-      <div>
+    <form action="{{url_for('agregar_producto')}}" method="POST" enctype="multipart/form-data">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">agregar_productos</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" name="nombre" id="nombre" required>
+            </div>
+            <div class="col-md-6">
+              <label for="precio" class="form-label">Precio</label>
+              <input type="text" class="form-control" name="precio" id="precio" required>
+            </div>
+            <div class="col-md-12">
+              <label for="descripcion" class="form-label">Descripcion</label>
+              <input type="text" class="form-control" name="descripcion" id="descripcion" required>
+            </div>
+            <div class="col-md-6">
+              <label for="cantidad" class="form-label">Cantidad</label>
+              <input type="number" class="form-control" name="cantidad" id="cantidad" required>
+            </div>
+            <div class="col-md-6">
+              <label for="imagen" class="form-label">Imagen</label>
+              <input type="file" class="form-control" name="imagen" id="imagen" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">guardar</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        </div>
 
       </div>
-
     </form>
-
-
   </div>
 </div>
+
+
+{% endblock %}
