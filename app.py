@@ -9,10 +9,6 @@ from datetime import datetime, timedelta
 import smtplib
 from email.mime.text import MIMEText
 
-import secrets
-from datetime import datetime, timedelta
-import smtplib
-from email.mime.text import MIMEText
 
 def  generar_token (email):
     token = secrets.token_urlsafe(32)
@@ -62,14 +58,22 @@ def login():
         password_ingresada = request.form['password'] 
         
         cur = mysql.connection.cursor()#metodo cursor
-        cur.execute("SELECT idUsuario, nombre, password FROM usuarios WHERE username = %s",(username,))
+        cur.execute("SELECT u.idUsuario,u.nombre,u.password,r.nombreRol FROM usuarios u JOIN usuario_rol ur ON u.idUsuario=ur.idUsuario JOIN roles r ON ur.idRol=r.idRol WHERE u.username = %s",(username,))
         usuario = cur.fetchone()
         cur.close # va a cerrar esta conexion ( es el objeto de conexio de una base de datos)
         
         if usuario and check_password_hash (usuario[2], password_ingresada):
             session ['usuario'] = usuario[1]
+            session['rol'] = usuario [3]
             flash(f"¡Bienvenido {usuario [1]}!")
-            return redirect(url_for('dashboard'))
+
+            if usuario[3]=='Admin':
+                return redirect(url_for('dashboard'))
+            elif usuario[3]== 'Usuario':
+                return redirect(url_for('index'))
+            else: 
+                flash("rol no reconocido")
+                return redirect(url_for('login'))
         else:
             flash("usuario o contraseña incorrecta")
     return render_template('login.html')
@@ -96,6 +100,12 @@ def registrarse():
             cur.execute("""INSERT INTO usuarios(nombre,apellido,username,password) VALUES (%s,%s,%s,%s)
                       """, (nombre, apellido, username, hash))
             mysql.connection.commit()
+
+            cur.execute("SELECT idUsuario FROM usuarios WHERE username=%s",(username,))
+            nuevoUsuario=cur.fetchone()
+            cur.execute("INSERT INTO usuario_rol(idUsuario,idRol) VALUES (%s,%s)",(nuevoUsuario[0],2))
+            mysql.connection.commit()
+
             flash('Usuario registrado con éxito')
             return redirect(url_for('login'))
         except:
