@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %} Recuperar contraseña {% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas Felices</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='contraseña.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/huellitas_felices.png') }}">
+</head>
+<body>
+  <div class="login-wrapper">
+    <form action="#!" method="POST"></form>
+    <!-- Panel izquierdo con imagen -->
+    <div class="left-panel">
+      <img src="{{ url_for('static', filename='img/login_perrito.png') }}" alt="Mascotas" class="mascotas_img">
+    </div>
+
+    <!-- Panel derecho con formulario -->
+    <div class="right-panel">
+      <h1>¡Contraseña actualizada!</h1>
+      <p>Ingrese su nueva contraseña.</p>
+      <img src="{{ url_for('static', filename='img/huellitas_felices.png') }}" class="logo">
+
+      <form method="POST">
+
+      <div class="form-container">
+        <input type="password" class="form-control" name="password"id="password" placeholder="Nueva contraseña"required>
+         <label for="password" class="form-label">Nueva contraseña</label>
+
+         <div class="form-container">
+          <input type="password" class="form-control" name="confirm"id="confirm" placeholder="confirmar contraseña"required>
+           <label for="password" class="form-label">confirmar contraseña</label>
+
+        <button class="btn btn-primary btn-lg" type="submit">Guardar nueva contraseña</button>
+        <a href="{{ url_for('login') }}">volver al login </a>
+
+      </div>
+    </form>
+    </div>
+
+  </div>
+
+</body>
+</html>
+{% endblock %}

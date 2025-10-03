@@ -14,7 +14,7 @@
     <div class="left-panel">
       <img src="{{ url_for('static', filename='img/login_perrito.png') }}" alt="Mascotas" class="mascotas_img">
     </div>
-
+    <form action="{{url_for('recuperar_contraseña')}}" method="POST">
     <!-- Panel derecho con formulario -->
     <div class="right-panel">
       <h1>¡Recuperación de contraseña!</h1>
@@ -22,13 +22,13 @@
       <img src="{{ url_for('static', filename='img/huellitas_felices.png') }}" class="logo">
 
       <div class="form-container">
-        <input type="email" placeholder="Correo" required>
+        <input type="email" name="email" id="email" placeholder="Correo" required>
 
         <input type="submit" name="Entrar" value="Enviar" class="boton-redireccion">
 
       </div>
     </div>
-
+  </form>
   </div>
 
 </body>
