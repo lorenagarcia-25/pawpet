@@ -8,6 +8,8 @@ import secrets
 from datetime import datetime, timedelta
 import smtplib
 from email.mime.text import MIMEText
+from werkzeug.utils import secure_filename
+import os
 
 
 def  generar_token (email):
@@ -160,12 +162,53 @@ def reset (token):
 
     return render_template('reset.html')
 
-     
+def inventario():
+    #if 'rol' not in session or session['rol'] != 'admin':
+    #    flash("acceso  restringido solo parfa los administradores")
+    #    return redirect(url_for('login'))
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM productos")
+    productos = cursor.fetchall()
+    cursor.close()
+    return render_template('inventario.html', productos=productos)
 
 @app.route('/inventario')
 def inventario():
-    #if 'rol' not in session or session['rol'] !='admin'
-    return render_template('inventario.html')
+    #if 'rol' not in session or session['rol'] != 'admin':
+    #    flash("acceso  restringido solo parfa los administradores")
+    #    return redirect(url_for('login'))
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM productos")
+    productos = cursor.fetchall()
+    cursor.close()
+    return render_template('inventario.html', productos=productos)
+
+@app.route('/agregar_producto', methods=['GET','POST'])
+def agregar_producto():
+    #if 'rol' not in session or session['rol'] != 'admin':
+    #   flash("acceso  restringido solo parfa los administradores")
+    #    return redirect(url_for('login'))
+    if request.method=='POST':
+        nombre=request.form['nombre']
+        descripcion=request.form['descripcion']
+        precio=request.form['precio']
+        imagen=request.files['imagen']
+        cantidad=request.form['cantidad']
+
+        
+        filename=secure_filename(imagen.filename)
+        imagen.save(os.path.join('static/uploads',filename))
+        cursor = mysql.connection.cursor()
+        cursor.execute("INSERT INTO productos (nombre_producto,descripcion,precio,cantidad,imagen)VALUES(%s,%s,%s,%s,%s)",(nombre,descripcion,precio,cantidad,filename))
+        mysql.connection.commit()
+        cursor.close()
+
+        flash("producto almacenado correctamente")
+        return redirect(url_for('inventario'))
+    return render_template('agregar_producto.html')
+
+        
+        
 
 @app.route('/sobre_nosotras')
 def sobre_nosotras ():
