@@ -112,6 +112,9 @@
       <li class="nav-item"> <!-- esta repido 3 veces -->
         <a class="nav-link text-white" href="{{url_for('inventario')}}">Inventario</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{{url_for('catalogo')}}">catalogo</a>
+      </li>
       {% endif %}
 
       {% if session.get('usuario') %}
@@ -142,6 +145,7 @@
 
       <a class="dropdown-item" href="{{url_for('dashboard')}}">dashboard</a>
       <a class="dropdown-item" href="{{url_for('inventario')}}">Inventario</a>
+      <a class="nav-link text-white" href="{{url_for('catalogo')}}">catalogo</a>
 
         <a class="dropdown-item" href="">Comida</a>
         <a class="dropdown-item" href="">Medicamentos</a>
@@ -149,7 +153,7 @@
         <a class="dropdown-item" href="">Juguetes</a>
         <a class="dropdown-item" href="">Accesorios</a>
         <a class="dropdown-item" href="">Sobre Nosotras</a>
-        <a class="dropdown-item" href="">usuarios</a>
+      
       </ul>
     </div>
 

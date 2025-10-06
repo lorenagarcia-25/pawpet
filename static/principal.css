@@ -122,7 +122,10 @@
    margin-top: -15px;
  }
  
-
+.card-img-top{
+    height: 150px;
+    object-fit: cover;
+}
 
  /* RESPONSIVE AJUSTADO */
  @media (max-width: 700px) {

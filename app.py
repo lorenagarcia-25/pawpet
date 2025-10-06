@@ -235,6 +235,15 @@ def eliminar(id):
     flash ('Usuario eliminado')
     return redirect(url_for('dashboard'))
 
+@app.route ('/catalogo')
+def catalogo():
+     cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
+     cursor.execute("SELECT * FROM productos")
+     productos = cursor.fetchall()
+     cursor.close()
+     
+     return render_template('catalogo.html', productos=productos)
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
     
