@@ -7,32 +7,28 @@
 
 
 <div class="container mb-4">
-  <h3>Gestion de Inventario</h3>
+  <h3>Gestion de categorias</h3>
 
-  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">Agregar productos</button>
-  <br><br>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">Agregar categorias</button>
+  <br> <br>
   <table class="table table-bordered table-hover">
     <thead class="table-light">
       <tr>
         <th>Imagen</th>
         <th>Nombre</th>
-        <th>Precio</th>
-        <th>Cantidad</th>
-        <th>Categoria</th>
+        <th>descripcion</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
-      {% for p in productos %}
+      {% for c in categorias %}
       <tr>
-        <td><img src="{{url_for('static', filename='uploads/'+ p.imagen)}}" width="80"></td>
-        <td>{{ p.nombre_producto }}</td>
-        <td>${{ p.precio }}</td>
-        <td>{{ p.cantidad }}</td>
-        <td>{{ p.idCategoria }}</td>
-        <td><button class="btn-pink" data-bs-toggle="modal" data-bs-target="#modalEditar{{p['idProducto']}}">editar
+        <td><img src="{{url_for('static', filename='categorias/'+ c.imagen)}}" width="80"></td>
+        <td>{{ c.nombre }}</td>
+        <td>${{ c.descripcion }}</td>
+        <td><button class="btn-pink" data-bs-toggle="modal" data-bs-target="#modalEditar{{c['idCategoria]}}">editar
             productos</button>
-          <button class="btn-purple" data-bs-toggle="modal" data-bs-target="#modalEliminar{{p['idProducto']}}">eliminar
+          <button class="btn-purple" data-bs-toggle="modal" data-bs-target="#modalEliminar{{c['idCategoria']}}">eliminar
             productos</button>
         </td>
       </tr>
@@ -42,12 +38,11 @@
   </th>
   <th>
 </div>
-{% for p in productos %}
 
 <!-- The Modal -->
 <div class="modal" id="modalAgregar">
   <div class="modal-dialog">
-    <form action="{{url_for('agregar_producto')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{url_for('agregar_categorias')}}" method="POST" enctype="multipart/form-data">
       <div class="modal-content">
 
         <!-- Modal Header -->
@@ -59,31 +54,19 @@
         <!-- Modal body -->
         <div class="modal-body">
           <div class="row g-3">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <label for="nombre" class="form-label">Nombre</label>
               <input type="text" class="form-control" name="nombre" id="nombre" required>
             </div>
-            <div class="col-md-6">
-              <label for="precio" class="form-label">Precio</label>
-              <input type="text" class="form-control" name="precio" id="precio" required>
-            </div>
+
             <div class="col-md-12">
               <label for="descripcion" class="form-label">Descripcion</label>
               <input type="text" class="form-control" name="descripcion" id="descripcion" required>
             </div>
-            <div class="col-md-6">
-              <label for="cantidad" class="form-label">Cantidad</label>
-              <input type="number" class="form-control" name="cantidad" id="cantidad" required>
-            </div>
-            <div class="col-md-6">
+
+            <div class="col-md-12">
               <label for="imagen" class="form-label">Imagen</label>
               <input type="file" class="form-control" name="imagen" id="imagen" required>
-            </div>
-            <div class="form-group">
-              <label for="categoria" class="form-label">Categoria</label>
-              <select name="categoria" id="">
-                <option value="">Selecciona la categoria</option>
-              </select>
             </div>
           </div>
         </div>
@@ -98,8 +81,6 @@
     </form>
   </div>
 </div>
-
-
 <!-- The Modal Editar-->
 <div class="modal" id="modalEditar{{p['idProducto']}}">
   <div class="modal-dialog">
@@ -162,7 +143,7 @@
 
 
 <!-- The Modal -->
-<div class="modal" id="modalEliminar{{p['idProducto']}}">
+<div class="modal" id="modalEliminar{{c['idProducto']}}">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -175,7 +156,7 @@
       <!-- Modal body -->
       <div class="modal-body">
         <div class="row g-3">
-          <p>¿Estas seguro que deseas eliminar este producto?</p>
+          <p>¿Estas seguro que deseas eliminar este categoria?</p>
         </div>
       </div>
 
@@ -190,5 +171,5 @@
   </div>
 </div>
 
-{% endfor %}
+
 {% endblock %}

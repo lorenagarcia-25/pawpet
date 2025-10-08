@@ -90,7 +90,40 @@ a {
   
 }
 
+.btn-pink {
+  background-color: #ff69b4; /* Color de fondo rosa */
+  color: white; /* Color del texto blanco */
+  border: none; /* Sin borde */
+  padding: 10px 20px; /* Espaciado interno */
+  text-align: center; /* Alineación del texto */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-block; /* Mostrar como bloque en línea */
+  font-size: 16px; /* Tamaño de la fuente */
+  margin: 4px 2px; /* Margen alrededor del botón */
+  cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+  border-radius: 12px; /* Bordes redondeados */
+}
 
+.btn-pink:hover {
+  background-color: #fdafd6; /* Color de fondo rosa más claro al pasar el cursor */
+} 
+.btn-purple {
+  background-color: #800080; /* Color de fondo morado */
+  color: white; /* Color del texto blanco */
+  border: none; /* Sin borde */
+  padding: 10px 20px; /* Espaciado interno */
+  text-align: center; /* Alineación del texto */
+  text-decoration: none; /* Sin subrayado */
+  display: inline-block; /* Mostrar como bloque en línea */
+  font-size: 16px; /* Tamaño de la fuente */
+  margin: 4px 2px; /* Margen alrededor del botón */
+  cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+  border-radius: 12px; /* Bordes redondeados */
+}
+
+.btn-purple:hover {
+  background-color: #bd71bd; /* Color de fondo morado más claro al pasar el cursor */
+}
 
 
 

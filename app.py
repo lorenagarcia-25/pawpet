@@ -82,7 +82,7 @@ def login():
         cur.close # va a cerrar esta conexion ( es el objeto de conexio de una base de datos)
         
         if usuario and check_password_hash (usuario[2], password_ingresada):
-            session['idUsuario']= usuario[0]
+            
             session ['usuario'] = usuario[1]
             session['rol'] = usuario [3]
             flash(f"¡Bienvenido {usuario [1]}!")
@@ -306,6 +306,72 @@ def agregarCarrito(id):
          
     flash("producto agregado al carrito")
     return redirect(url_for('catalogo'))
+
+@app.route('/editar_producto/<int:id>', methods=['POST'])
+def editar_producto(id):
+    nombre = request.form['nombre']
+    descripcion = request.form['descripcion']
+    precio = request.form['precio']
+    cantidad = request.form['cantidad']
+    imagen = request.files['imagen']
+    
+    cursor= mysql.connection.cursor()
+    if imagen and imagen.filename != '':
+        filename = secure_filename(imagen.filename)
+        imagen.save(os.path.join('static/uploads', filename))
+        cursor.execute("""
+                       UPDATE productos
+                       SET nombre_producto=%s, descripcion=%s, precio=%s, cantidad=%s, imagen=%s
+                       WHERE idProducto=%s
+                       """, (nombre, descripcion, precio, cantidad, filename, id))
+    else:
+        cursor.execute("""
+                       UPDATE productos
+                       SET nombre_producto=%s, descripcion=%s, precio=%s, cantidad=%s
+                       WHERE idProducto=%s
+                       """, (nombre, descripcion, precio, cantidad, id))
+    mysql.connection.commit()
+    cursor.close()
+    flash("Producto actualizado correctamente")
+    return redirect(url_for('inventario'))
+
+@app.route('/eliminar_producto/<int:id>')
+def eliminar_producto(id):
+    cursor = mysql.connection.cursor()
+    cursor.execute('DELETE FROM productos WHERE idProducto=%s', (id,))
+    mysql.connection.commit()
+    cursor.close()
+    flash('Producto eliminado correctamente')
+    return redirect(url_for('inventario'))
+
+@app.route('/categorias', methods=['GET','POST'])
+def categorias():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM categorias")
+    categorias = cursor.fetchall()
+    cursor.close()
+    return render_template('categorias.html', categorias=categorias)
+
+@app.route('/agregar_categorias', methods=['GET','POST'])
+def agregar_categorias():
+    if request.method=='POST':
+        nombre=request.form['nombre']
+        descripcion=request.form['descripcion']
+        imagen=request.files['imagen']
+
+        
+        filename=secure_filename(imagen.filename)
+        imagen.save(os.path.join('static/categorias',filename))
+        cursor = mysql.connection.cursor()
+        cursor.execute("INSERT INTO categorias (nombre,descripcion,imagen)VALUES(%s,%s,%s)",(nombre,descripcion,filename))
+        mysql.connection.commit()
+        cursor.close()
+
+        flash("categoria almacenada correctamente")
+        return redirect(url_for('categorias'))
+    return render_template('agregar_categorias.html')
+
+@app.route('/editar_categoria/<int:id>', methods=['POST'])
     
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
