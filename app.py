@@ -48,6 +48,23 @@ app.config["MYSQL_DB"]= "paw_pet"  # nombre de la base
 
 mysql = MySQL(app)
 app.secret_key = 'Maya'
+
+@app.context_processor
+def contar_items_carrito():
+    if 'idUsuario' in session:
+        idUsuario = session ['idUsuario']
+        cursor =mysql.connection.cursor()
+        cursor.execute("""
+                       SELECT SUM(dc.cantidad)
+                       FROM detalle_carrito dc
+                       JOIN carrito c ON dc.idCarrito = c.idCarrito
+                       WHERE c.idUsuario = %s
+                       """,(idUsuario))
+        cantidad = cursor.fetchone()[0]
+        cursor.close()
+        return dict(carrito_cantidad=cantidad if cantidad else 0)
+    return dict(carrito_cantidad=0)
+     
 @app.route("/")
 def index():
     #usuamos render_template para mostar el archivo 'index,html'
@@ -65,6 +82,7 @@ def login():
         cur.close # va a cerrar esta conexion ( es el objeto de conexio de una base de datos)
         
         if usuario and check_password_hash (usuario[2], password_ingresada):
+            
             session ['usuario'] = usuario[1]
             session['rol'] = usuario [3]
             flash(f"¡Bienvenido {usuario [1]}!")
@@ -235,6 +253,126 @@ def eliminar(id):
     flash ('Usuario eliminado')
     return redirect(url_for('dashboard'))
 
+@app.route ('/catalogo')
+def catalogo():
+     cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
+     cursor.execute("SELECT * FROM productos")
+     productos = cursor.fetchall()
+     cursor.close()
+     
+     return render_template('catalogo.html', productos=productos)
+ 
+@app.route('/agregarCarrito/<int:id>', methods=['POST'])
+def agregarCarrito(id):
+    if'usuario' not in session:
+        flash("debes iniciar sesion para comprar.")
+        return redirect(url_for('login'))
+     
+    cantidad = int(request.form['cantidad'])
+    idUsuario = session.get('idUsuario')
+     
+    cursor = mysql.connect.cursor()
+    cursor.execute("SELECT idCarrito FROM carrito WHERE idUsuario =%s", (idUsuario,))
+    carrito = cursor.fetchone()
+     
+    if not carrito:
+        cursor.execute("INSERT INTO carrito(idUsuario) VALUES (%s)", (idUsuario,))
+        mysql.connection.commit()
+        cursor.execute("SELECT LAST_INSERT_ID()")
+        carrito = cursor.fetchone()
+     
+    idCarrito = carrito[0]
+     
+    cursor.execute(""" SELECT cantidad FROM detalle_carrito
+                    WHERE idCarrito = %s AND idProducto =%s 
+                     """, (idCarrito,id))
+    existente = cursor.fetchone()
+         
+    if existente:
+        nueva_cantidad = existente[0] + cantidad
+        cursor.execute("""
+                       UPDATE detalle_carrito
+                       SET cantidad = %s
+                       WHERE idCarrito = %s AND idProducto = %s
+                       """, (nueva_cantidad, idCarrito,id))      
+    else:
+        cursor.execute("""
+            INSERT INTO detalle_carito(idCarrito, idProducto,cantidad)
+            VALUES (%s,%s,%s)
+            """,(idCarrito,id,cantidad))
+         
+    mysql.connect.commit()
+    cursor.close()
+         
+    flash("producto agregado al carrito")
+    return redirect(url_for('catalogo'))
+
+@app.route('/editar_producto/<int:id>', methods=['POST'])
+def editar_producto(id):
+    nombre = request.form['nombre']
+    descripcion = request.form['descripcion']
+    precio = request.form['precio']
+    cantidad = request.form['cantidad']
+    imagen = request.files['imagen']
+    
+    cursor= mysql.connection.cursor()
+    if imagen and imagen.filename != '':
+        filename = secure_filename(imagen.filename)
+        imagen.save(os.path.join('static/uploads', filename))
+        cursor.execute("""
+                       UPDATE productos
+                       SET nombre_producto=%s, descripcion=%s, precio=%s, cantidad=%s, imagen=%s
+                       WHERE idProducto=%s
+                       """, (nombre, descripcion, precio, cantidad, filename, id))
+    else:
+        cursor.execute("""
+                       UPDATE productos
+                       SET nombre_producto=%s, descripcion=%s, precio=%s, cantidad=%s
+                       WHERE idProducto=%s
+                       """, (nombre, descripcion, precio, cantidad, id))
+    mysql.connection.commit()
+    cursor.close()
+    flash("Producto actualizado correctamente")
+    return redirect(url_for('inventario'))
+
+@app.route('/eliminar_producto/<int:id>')
+def eliminar_producto(id):
+    cursor = mysql.connection.cursor()
+    cursor.execute('DELETE FROM productos WHERE idProducto=%s', (id,))
+    mysql.connection.commit()
+    cursor.close()
+    flash('Producto eliminado correctamente')
+    return redirect(url_for('inventario'))
+
+@app.route('/categorias', methods=['GET','POST'])
+def categorias():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT * FROM categorias")
+    categorias = cursor.fetchall()
+    cursor.close()
+    return render_template('categorias.html', categorias=categorias)
+
+@app.route('/agregar_categorias', methods=['GET','POST'])
+def agregar_categorias():
+    if request.method=='POST':
+        nombre=request.form['nombre']
+        descripcion=request.form['descripcion']
+        imagen=request.files['imagen']
+
+        
+        filename=secure_filename(imagen.filename)
+        imagen.save(os.path.join('static/categorias',filename))
+        cursor = mysql.connection.cursor()
+        cursor.execute("INSERT INTO categorias (nombre,descripcion,imagen)VALUES(%s,%s,%s)",(nombre,descripcion,filename))
+        mysql.connection.commit()
+        cursor.close()
+
+        flash("categoria almacenada correctamente")
+        return redirect(url_for('categorias'))
+    return render_template('agregar_categorias.html')
+
+@app.route('/editar_categoria/<int:id>', methods=['POST'])
+    
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
     

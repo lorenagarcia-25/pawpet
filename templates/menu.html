@@ -31,7 +31,7 @@
       background-color: #8ab4f2;
       margin-top: -20px;
       margin-left: 5px;
-      height: 280px;
+      height: 360px;
       box-sizing: border-box;
     }
 
@@ -72,7 +72,6 @@
 
 <body>
 
- 
   <div class="barra_rosada">
     <!-- IZQUIERDA: menú y logo -->
     <div class="barra_izquierda">
@@ -88,77 +87,56 @@
 
     <!-- DERECHA: buscador y usuario -->
     <div class="barra_derecha">
-
-
-    
-        <div class="search-container">
-          <form action="/action_page.php">
-            <input type="text" placeholder="Buscar" name="search">
-            <button type="submit"><i class="fa fa-search"></i></button>
-          </form>
-        </div>
-      
-
-
-      <div id="RespBusq">
-       
-      </div>
+      <a class="carrito" href="#"><i class="bi bi-cart3 fs-1"></i>{{carrito_cantidad}}</a>
+      <!-- aca si aparece en login -->
 
 
       {% if session.get('rol') == 'admin' %}
       <li class="nav-item">
         <a class="nav-link text-white" href="{{url_for('dashboard')}}">dashboard</a>
       </li>
-      <li class="nav-item"> <!-- esta repido 3 veces -->
+      <li class="nav-item">
         <a class="nav-link text-white" href="{{url_for('inventario')}}">Inventario</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{{url_for('catalogo')}}">catalogo</a>
       </li>
       {% endif %}
 
       {% if session.get('usuario') %}
-      <a href="{{url_for('logout')}}" class="boton-redireccion">cerrar sesion>
-
-      </a>
-      {% else %}
       <li class="nav-item">
-        <a class="nav-link text-white" href="{{url_for('login')}} ">
-          <img src="{{ url_for('static', filename='img/usuario_logo.png') }}" alt="usuario" class="lusuario">
-        </a>
+        <a class="nav-link text-white" href="#"><i class="bi bi-cart3"></i>{{carrito_cantidad}}</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{{url_for('logout')}} ">Cerrar Sesión</a>
+      </li>
+      {% else %}
+      <a class="nav-link text-white" href="{{url_for('login')}} ">
+        <img src="{{ url_for('static', filename='img/usuario_logo.png') }}" alt="usuario" class="lusuario">
+      </a>
       {% endif %}
-
 
     </div>
   </div>
 
   <div class="menu-container">
 
-
-
     <div class="dropdown" id="menuDropdown">
-      <button class="btn dropdown-togglee" type="button">
-
-      </button>
+      <button class="btn dropdown-togglee" type="button"></button>
       <ul class="dropdown-menu">
-
-      <a class="dropdown-item" href="{{url_for('dashboard')}}">dashboard</a>
-      <a class="dropdown-item" href="{{url_for('inventario')}}">Inventario</a>
-
-        <a class="dropdown-item" href="">Comida</a>
-        <a class="dropdown-item" href="">Medicamentos</a>
-        <a class="dropdown-item" href="">Higiene</a>
-        <a class="dropdown-item" href="">Juguetes</a>
-        <a class="dropdown-item" href="">Accesorios</a>
-        <a class="dropdown-item" href="">Sobre Nosotras</a>
-        <a class="dropdown-item" href="">usuarios</a>
+        <li><a class="dropdown-item" href="{{url_for('dashboard')}}">dashboard</a></li>
+        <li><a class="dropdown-item" href="{{url_for('inventario')}}">Inventario</a></li>
+        <li><a class="dropdown-item" href="{{url_for('catalogo')}}">catalogo</a></li>
+        <li><a class="dropdown-item" href="{{url_for('categorias')}}">categorias</a></li>
+        <li><a class="dropdown-item" href="">Comida</a></li>
+        <li><a class="dropdown-item" href="">Medicamentos</a></li>
+        <li><a class="dropdown-item" href="">Higiene</a></li>
+        <li><a class="dropdown-item" href="">Juguetes</a></li>
+        <li><a class="dropdown-item" href="">Accesorios</a></li>
+        <li><a class="dropdown-item" href="">Sobre Nosotras</a></li>
       </ul>
     </div>
-
-
-
-
-
   </div>
-
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.js"></script>
