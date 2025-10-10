@@ -59,7 +59,7 @@ def contar_items_carrito():
                        FROM detalle_carrito dc
                        JOIN carrito c ON dc.idCarrito = c.idCarrito
                        WHERE c.idUsuario = %s
-                       """,(idUsuario))
+                       """,(idUsuario,))
         cantidad = cursor.fetchone()[0]
         cursor.close()
         return dict(carrito_cantidad=cantidad if cantidad else 0)

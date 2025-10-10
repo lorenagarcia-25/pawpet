@@ -19,7 +19,10 @@
 
 <body>
 
+  {% block navbar %}
   {% include 'menu.html' %}
+  {% endblock %}
+  <!-- navbar y endblock  borra el menú porque se esta  diciendo: “Aquí va el menú… pero no quiero mostrar nada”. -->
 
   {% with messages = get_flashed_messages() %}
   {% if messages %}
