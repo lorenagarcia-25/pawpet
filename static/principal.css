@@ -35,6 +35,7 @@
    align-items: center;
    gap: 0px;
    flex-shrink: 0;
+   margin-right:-30px ;
  }
 
  /* BUSCADOR */
@@ -86,10 +87,13 @@
     height: 150px;
     object-fit: cover;
 }
+
 .carrito{
-  width: 100%;
   color: black;
 }
+
+ 
+
 
  /* RESPONSIVE AJUSTADO */
  @media (max-width: 700px) {

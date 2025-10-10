@@ -87,8 +87,83 @@
 
     <!-- DERECHA: buscador y usuario -->
     <div class="barra_derecha">
-      <a class="carrito" href="#"><i class="bi bi-cart3 fs-1"></i>{{carrito_cantidad}}</a>
-      <!-- aca si aparece en login -->
+      <!-- Script para búsqueda de productos  -->
+      <script>
+        // Escucha el evento 'keyup' en el campo con id 'buscador'
+        document.getElementById("buscador").addEventListener("keyup", function () {
+          // Captura el valor actual del input (lo que el usuario escribe)
+          let q = this.value;
+
+          // Realiza una petición GET al endpoint /buscar con el parámetro 'q' codificado
+          fetch(`/buscar?q=${encodeURIComponent(q)}`)
+            .then(res => res.json()) // Convierte la respuesta en formato JSON
+            .then(data => {
+              let html = ""; // Variable para construir el HTML dinámico
+
+              // Si hay resultados en la respuesta
+              if (data.length > 0) {
+                data.forEach(p => { // Itera sobre cada producto 'p'
+                  html += `
+              <div class="col-12 col-md-6 col-lg-4 d-flex">
+                <article class="d-flex">
+                  <div class="card border border-dark" style="--bs-card-border-radius:0; --bs-card-inner-border-radius:0;">
+                    
+                    <!-- Imagen del producto con efecto hover y modal -->
+                    <figure class="card-img-top m-0 overflow-hidden bsb-overlay-hover">
+                      <a href="#!" data-bs-toggle="modal" data-bs-target="#modal${p.idProducto}">
+                        <img class="img-fluid bsb-scale bsb-hover-scale-up" loading="lazy"
+                             src="/static/uploads/${p.imagen}" alt="${p.nombre_producto}">
+                      </a>
+                      <figcaption>
+                        <h4 class="h6 text-white mt-2">Ver producto</h4>
+                      </figcaption>
+                    </figure>
+
+                    <!-- Información del producto -->
+                    <div class="card-body border-0 bg-white p-4">
+                      <h5 class="card-title">${p.nombre_producto}</h5>
+                      <p class="card-text text-secondary">${p.descripcion}</p>
+                      <p class="card-text"><strong>$${new Intl.NumberFormat().format(p.precio)}</strong></p>
+
+                      <!-- Formulario para agregar al carrito -->
+                      <form action="/agregarCarrito/${p.idProducto}" method="POST">
+                        <input type="number" name="cantidad" value="1" min="1" max="${p.cantidad}" 
+                               class="form-control mb-2" ${p.cantidad == 0 ? "disabled" : ""}>
+                        
+                        <!-- Mensaje según disponibilidad -->
+                        ${p.cantidad == 0
+                      ? <p class="text-danger">Producto agotado</p>
+                      : <p class="text-muted">Disponibles: ${p.cantidad}</p>}
+
+                        <!-- Botón de agregar al carrito, deshabilitado si no hay stock -->
+                        <button type="submit" 
+                          class="${p.cantidad == 0 ? "btn-secondary" : "btn-success"} w-100"
+                          ${p.cantidad == 0 ? "disabled" : ""}>Agregar al carrito</button>
+                      </form>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            `;
+                });
+              } else {
+                // Si no hay resultados, muestra un mensaje
+                html = "<p>No se encontraron resultados.</p>";
+              }
+
+              // Inserta el HTML generado en el contenedor de productos
+              document.getElementById("contenedor-productos").innerHTML = html;
+            });
+        });</script>
+
+      <!-- Buscador de productos  -->
+      <div class="input-group mb-3 mt-3 w-50 me-2">
+        <span class="input-group-text bg-dark text-white border-dark" id="label-buscador">
+          <i class="bi bi-search"></i>
+        </span>
+        <input type="text" id="buscador" class="form-control border-dark" placeholder="Buscar "
+          aria-label="Buscar productos" aria-describedby="label-buscador">
+      </div>
 
 
       {% if session.get('rol') == 'admin' %}
@@ -104,12 +179,13 @@
       {% endif %}
 
       {% if session.get('usuario') %}
-      <li class="nav-item">
-        <a class="nav-link text-white" href="#"><i class="bi bi-cart3"></i>{{carrito_cantidad}}</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="{{url_for('logout')}} ">Cerrar Sesión</a>
-      </li>
+      <div class="nav-item me-2">
+        <a class="carrito" href="#"><i class="bi bi-cart3 fs-1"></i>{{carrito_cantidad}}</a>
+      </div>
+
+      <div class="nav-item fs-5 ">
+        <a class="nav-link text-dark" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+      </div>
       {% else %}
       <a class="nav-link text-white" href="{{url_for('login')}} ">
         <img src="{{ url_for('static', filename='img/usuario_logo.png') }}" alt="usuario" class="lusuario">

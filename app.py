@@ -82,7 +82,7 @@ def login():
         cur.close # va a cerrar esta conexion ( es el objeto de conexio de una base de datos)
         
         if usuario and check_password_hash (usuario[2], password_ingresada):
-            
+            session['idUsuario']= usuario[0]
             session ['usuario'] = usuario[1]
             session['rol'] = usuario [3]
             flash(f"¡Bienvenido {usuario [1]}!")
