@@ -259,7 +259,6 @@ def catalogo():
      cursor.execute("SELECT * FROM productos")
      productos = cursor.fetchall()
      cursor.close()
-     
      return render_template('catalogo.html', productos=productos)
  
 @app.route('/agregarCarrito/<int:id>', methods=['POST'])
@@ -272,6 +271,8 @@ def agregarCarrito(id):
     idUsuario = session.get('idUsuario')
      
     cursor = mysql.connect.cursor()
+    cursor.execute("SELECT cantidad FROM productos WHERE idProducto =%s", (id,))
+    carrito = cursor.fetchone()[0]
     cursor.execute("SELECT idCarrito FROM carrito WHERE idUsuario =%s", (idUsuario,))
     carrito = cursor.fetchone()
      
@@ -287,6 +288,15 @@ def agregarCarrito(id):
                     WHERE idCarrito = %s AND idProducto =%s 
                      """, (idCarrito,id))
     existente = cursor.fetchone()
+    cantidad_total = cantidad
+   
+    if existente:
+        cantidad_total += existente[0]
+   
+    if cantidad_total > stock:  
+        flash("no puedes agragar mas unidades  de las disponibles","warning")
+        cursor.close()
+        return redirect(url_for('catalogo'))
          
     if existente:
         nueva_cantidad = existente[0] + cantidad
@@ -297,7 +307,7 @@ def agregarCarrito(id):
                        """, (nueva_cantidad, idCarrito,id))      
     else:
         cursor.execute("""
-            INSERT INTO detalle_carito(idCarrito, idProducto,cantidad)
+            INSERT INTO detalle_carrito(idCarrito, idProducto,cantidad)
             VALUES (%s,%s,%s)
             """,(idCarrito,id,cantidad))
          
@@ -306,6 +316,31 @@ def agregarCarrito(id):
          
     flash("producto agregado al carrito")
     return redirect(url_for('catalogo'))
+
+
+@app.route('/carrito')
+def carrito():
+    if'usuario' not in session:
+       flash("debes iniciar sesion para comprar.")
+       return redirect(url_for('login'))
+     
+    idUsuario = session.get('idUsuario')
+     
+    cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("""
+            SELEC p.idProducto, p.nombre_producto, p.precio, p.imagen, dc.cantiad, p.cantidad AS stock
+            FROM detalle_carrito dc
+            JOIN carrito c ON dc.idCarrito = c.idCarrito
+            JOIN productos p ON dc.idProductos
+            WHERE c.idUsuario = %s
+    """, (idUsuario,))
+    productos_carrito = cursor.fetchone()
+    cursor.close()
+    total = sum(item['precio'] * item['cantidad'] for item in productos_carrito)
+   
+    return render_template('carrito.html', productos=productos_carrito, total = total)
+
+
 
 @app.route('/editar_producto/<int:id>', methods=['POST'])
 def editar_producto(id):
