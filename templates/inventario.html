@@ -83,6 +83,8 @@
               <label for="categoria" class="form-label">Categoria</label>
               <select name="categoria" id="">
                 <option value="">Selecciona la categoria</option>
+                {% for c in categorias %}
+              <option value="{{c.idCategoria}}" {% if p.idCategoria==c.idCategoria %}selected{% endif %}>{{c.nombre}}</option>{% endfor %}
               </select>
             </div>
           </div>
@@ -146,6 +148,8 @@
             <label for="categoria" class="form-label">Categoria</label>
             <select name="categoria" id="">
               <option value="">Selecciona la categoria</option>
+              {% for c in categorias %}
+              <option value="{{c.idCategoria}}" {% if p.idCategoria==c.idCategoria %}selected{% endif %}>{{c.nombre}}</option>{% endfor %}
             </select>
           </div>
         </div>

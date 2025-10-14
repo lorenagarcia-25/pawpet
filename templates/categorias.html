@@ -26,9 +26,9 @@
         <td><img src="{{url_for('static', filename='categorias/'+ c.imagen)}}" width="80"></td>
         <td>{{ c.nombre }}</td>
         <td>${{ c.descripcion }}</td>
-        <td><button class="btn-pink" data-bs-toggle="modal" data-bs-target="#modalEditar{{c['idCategoria]}}">editar
+        <td><button class="btn-pink" data-bs-toggle="modal" data-bs-target="#modalEditar{{c.idCategoria}}">editar
             productos</button>
-          <button class="btn-purple" data-bs-toggle="modal" data-bs-target="#modalEliminar{{c['idCategoria']}}">eliminar
+          <button class="btn-purple" data-bs-toggle="modal" data-bs-target="#modalEliminar{{c.idCategoria}}">eliminar
             productos</button>
         </td>
       </tr>
