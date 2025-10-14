@@ -272,7 +272,7 @@ def agregarCarrito(id):
      
     cursor = mysql.connect.cursor()
     cursor.execute("SELECT cantidad FROM productos WHERE idProducto =%s", (id,))
-    carrito = cursor.fetchone()[0]
+    stock = cursor.fetchone()[0]
     cursor.execute("SELECT idCarrito FROM carrito WHERE idUsuario =%s", (idUsuario,))
     carrito = cursor.fetchone()
      
@@ -309,7 +309,7 @@ def agregarCarrito(id):
         cursor.execute("""
             INSERT INTO detalle_carrito(idCarrito, idProducto,cantidad)
             VALUES (%s,%s,%s)
-            """,(idCarrito,id,cantidad))
+            """,(idCarrito, id,cantidad))
          
     mysql.connect.commit()
     cursor.close()
@@ -339,6 +339,75 @@ def carrito():
     total = sum(item['precio'] * item['cantidad'] for item in productos_carrito)
    
     return render_template('carrito.html', productos=productos_carrito, total = total)
+
+@app.route('/actualizar_carrito/<int:id>', methods=['POST'])
+def actualizar_carrito(id):
+    accion = request.form.get("accion")
+    cantidad_actual = int(request.form.get("cantidad_actual",1))
+    idUsuario = session.get("idUsuario")
+    
+    if accion == "sumar":
+        nueva_cantidad = cantidad_actual +1
+    elif accion == "restar":
+        nueva_cantidad = max(1, cantidad_actual -1)
+    else: 
+        nueva_cantidad = int(request.form.get("cantidad_manual", cantidad_actual) )
+
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("SELECT  cantidad FROM productos WRERE idProducto = %s", (id,))
+    stock = cursor.fetechone()[0]
+
+    if nueva_cantidad > stock:
+        flash("No puedes exceder el inventario disponible", "warning")
+        cursor.close()
+        return redirect(url_for("carrito"))
+    if nueva_cantidad > 0:
+        cursor.execute("""
+                UPDATE detalle_carrito dc
+                JOIN carrito c ON dc.idCarrito= c.idCarrito
+                SET dc.cantiada =%s
+                """)
+    else:
+        cursor.execute("""
+                       DELETE dc FROM detalle_carrito dc
+                       JOIN carrito c ON dc.idCarrito = c.idCarrito
+                       WHERE c.idUsuario = %s AND dc.idProducto = %s
+                       """,(idUsuario,id))    
+    mysql.connection.commit()
+    cursor.close()
+    
+    flash("carrito actualizado", "info")
+    return redirect(url_for("carrito")) 
+   
+@app.route("/eliminar_del_carrito/<int:id>")
+def eliminar_del_carrito(id):
+    idUsuario = session.get("idUsuario")
+    cursor = mysql.connection.cursor()
+    cursor.execute("""
+                       DELETE dc FROM detalle_carrito dc
+                       JOIN carrito c ON dc.idCarrito = c.idCarrito
+                       WHERE c.idUsuario = %s AND dc.idProducto = %s
+                       """,(idUsuario,id)) 
+    mysql.connection.commit()
+    cursor.close()
+    flash("Producto Eliminado", "danger")
+    return redirect(url_for("carrito")) 
+
+@app.route("/vaciar_carrito")
+def vaciar_carrito():
+    idUsuario = session.get("idUsuario")
+    cursor = mysql.connection.cursor()
+    cursor.execute("""
+                       DELETE dc FROM detalle_carrito dc
+                       JOIN carrito c ON dc.idCarrito = c.idCarrito
+                       WHERE c.idUsuario = %s  = %s
+                       """,(idUsuario,)) 
+    mysql.connection.commit()
+    cursor.close()
+    flash("Carrito Vaciado", "warning")
+    return redirect(url_for("carrito")) 
+    
 
 
 
