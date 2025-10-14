@@ -328,7 +328,7 @@ def carrito():
      
     cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("""
-            SELEC p.idProducto, p.nombre_producto, p.precio, p.imagen, dc.cantiad, p.cantidad AS stock
+            SELECT p.idProducto, p.nombre_producto, p.precio, p.imagen, dc.cantiad, p.cantidad AS stock
             FROM detalle_carrito dc
             JOIN carrito c ON dc.idCarrito = c.idCarrito
             JOIN productos p ON dc.idProductos
@@ -355,8 +355,8 @@ def actualizar_carrito(id):
 
     cursor = mysql.connection.cursor()
 
-    cursor.execute("SELECT  cantidad FROM productos WRERE idProducto = %s", (id,))
-    stock = cursor.fetechone()[0]
+    cursor.execute("SELECT cantidad FROM productos WRERE idProducto = %s", (id,))
+    stock = cursor.fetchone()[0]
 
     if nueva_cantidad > stock:
         flash("No puedes exceder el inventario disponible", "warning")
@@ -366,8 +366,9 @@ def actualizar_carrito(id):
         cursor.execute("""
                 UPDATE detalle_carrito dc
                 JOIN carrito c ON dc.idCarrito= c.idCarrito
-                SET dc.cantiada =%s
-                """)
+                SET dc.cantiada = %s
+                WHERE c.idUsuario = %s AND dc.idProductos =%s 
+                """ (nueva_cantidad,idUsuario,id))
     else:
         cursor.execute("""
                        DELETE dc FROM detalle_carrito dc
@@ -401,7 +402,7 @@ def vaciar_carrito():
     cursor.execute("""
                        DELETE dc FROM detalle_carrito dc
                        JOIN carrito c ON dc.idCarrito = c.idCarrito
-                       WHERE c.idUsuario = %s  = %s
+                       WHERE c.idUsuario = %s  
                        """,(idUsuario,)) 
     mysql.connection.commit()
     cursor.close()
