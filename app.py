@@ -477,6 +477,45 @@ def agregar_categorias():
     return render_template('agregar_categorias.html')
 
 @app.route('/editar_categoria/<int:id>', methods=['POST'])
+def editar_categoria (id):   
+    nombre=request.form['nombre']
+    descripcion=request.form['descripcion']
+    imagen=request.files['imagen']
+    cursor= mysql.connection.cursor()
+    
+    if imagen and imagen.filename != '':
+        filename = secure_filename(imagen.filename)
+        imagen.save(os.path.join('static/categorias', filename))
+        cursor.execute("""
+                       UPDATE categorias
+                       SET nombre=%s, descripcion=%s, imagen=%s
+                       WHERE idCategorias=%s
+                       """, (nombre, descripcion, imagen, filename, id))
+    else:
+        cursor.execute("""
+                       UPDATE categorias
+                       SET nombre=%s, descripcion=%s, imagen=%s
+                       WHERE idCategorias=%s
+                       """, (nombre, descripcion,imagen , id))
+    mysql.connection.commit()
+    cursor.close()
+    flash("categoria actualizado correctamente")
+    return redirect(url_for('categoria'))
+    
+@app.route('/eliminar_categoria/<int:id>')
+def eliminar_categoria(id):
+    cursor = mysql.connection.cursor()
+    cursor.execute('DELETE FROM categorias WHERE idCategoria=%s', (id,))
+    mysql.connection.commit()
+    cursor.close()
+    flash('categoria eliminado correctamente')
+    return redirect(url_for('categoria'))
+    
+    
+    
+
+
+
     
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

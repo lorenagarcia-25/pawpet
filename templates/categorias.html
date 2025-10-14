@@ -81,54 +81,38 @@
     </form>
   </div>
 </div>
+{% for c in categorias %}
 <!-- The Modal Editar-->
-<div class="modal" id="modalEditar{{p['idProducto']}}">
+<div class="modal" id="modalEditar{{c['idCategoria']}}">
   <div class="modal-dialog">
-    <form action="{{url_for('editar_producto', id= p ['idProducto'])}}" method="POST" enctype="multipart/form-data">
+    <form action="{{url_for('editar_categoria', id= c ['idCategoria'])}}" method="POST" enctype="multipart/form-data">
       <div class="modal-content">
 
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Editar productos</h4>
+          <h4 class="modal-title">Editar categoria</h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
 
         <!-- Modal body -->
         <div class="modal-body">
           <div class="form-group">
-            <label for="nombre {{ p ['idProducto']}}">Nombre</label>
-            <input type="text" class="form-control" name="nombre" id="nombre{{ p ['idProducto']}}"
-              value="{{ p['nombre_producto']}}" required>
+            <label for="nombre {{ c ['idCategoria']}}">Nombre</label>
+            <input type="text" class="form-control" name="nombre" id="nombre{{ c ['idCategoria']}}"
+              value="{{ c['nombre_categoria']}}" required>
           </div>
 
           <div class="form-group">
-            <label for="descripcion {{ p ['idProducto']}}">Descripción</label>
-            <input type="text" class="form-control" name="descripcion" id="descripcion{{ p ['idProducto']}}"
-              value="{{ p['descripcion']}}" required>
+            <label for="descripcion {{ c ['idCategoria']}}">Descripción</label>
+            <input type="text" class="form-control" name="descripcion" id="descripcion{{ c ['idCategoria']}}"
+              value="{{ c['descripcion']}}" required>
           </div>
 
           <div class="form-group">
-            <label for="precio {{ p ['idProducto']}}">Precio</label>
-            <input type="number" class="form-control" name="precio" id="precio{{ p ['idProducto']}}"
-              value="{{ p['precio']}}" required>
+            <label for="imagen {{ c ['idCategoria']}}">Imagen</label>
+            <input type="file" class="form-control" name="imagen" id="imagen{{ c ['imagen']}}" value="{{ c['imagen']}}">
           </div>
-
-          <div class="form-group">
-            <label for="cantidad {{ p ['idProducto']}}">Cantidad</label>
-            <input type="number" class="form-control" name="cantidad" id="cantidad{{ p ['cantidad']}}"
-              value="{{ p['cantidad']}}" required>
-          </div>
-
-          <div class="form-group">
-            <label for="imagen {{ p ['idProducto']}}">Imagen</label>
-            <input type="file" class="form-control" name="imagen" id="imagen{{ p ['imagen']}}" value="{{ p['imagen']}}">
-          </div>
-          <div class="form-group">
-            <label for="categoria" class="form-label">Categoria</label>
-            <select name="categoria" id="">
-              <option value="">Selecciona la categoria</option>
-            </select>
-          </div>
+         
         </div>
         <!-- Modal footer -->
         <div class="modal-footer">
@@ -143,13 +127,13 @@
 
 
 <!-- The Modal -->
-<div class="modal" id="modalEliminar{{c['idProducto']}}">
+<div class="modal" id="modalEliminar{{c['idCategoria']}}">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title" id="modalLabel{{p['idProducto']}}">eliminar_productos</h4>
+        <h4 class="modal-title" id="modalLabel{{c['idCategoria']}}">eliminar_categoria</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -162,7 +146,7 @@
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <a href="{{url_for('eliminar_producto',id=p['idProducto'])}}" class="btn btn-danger">eliminar</a>
+        <a href="{{url_for('eliminar_categoria',id=c['idCategoria'])}}" class="btn btn-danger">eliminar</a>
         <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancelar</button>
       </div>
 
@@ -170,6 +154,7 @@
     </form>
   </div>
 </div>
+{% endfor %}
 
 
 {% endblock %}
