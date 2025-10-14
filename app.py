@@ -328,13 +328,13 @@ def carrito():
      
     cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("""
-            SELECT p.idProducto, p.nombre_producto, p.precio, p.imagen, dc.cantiad, p.cantidad AS stock
+            SELECT p.idProducto, p.nombre_producto, p.precio, p.imagen, dc.cantidad, p.cantidad AS stock
             FROM detalle_carrito dc
             JOIN carrito c ON dc.idCarrito = c.idCarrito
-            JOIN productos p ON dc.idProductos
+            JOIN productos p ON dc.idProducto = idProducto
             WHERE c.idUsuario = %s
     """, (idUsuario,))
-    productos_carrito = cursor.fetchone()
+    productos_carrito = cursor.fetchall()
     cursor.close()
     total = sum(item['precio'] * item['cantidad'] for item in productos_carrito)
    

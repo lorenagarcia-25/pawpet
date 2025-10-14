@@ -28,17 +28,17 @@
                             style="display: flex; align-items: center; justify-content: center; gap: 5px;">
                             <input type="hidden" name="cantidad_actual" value="{{item.cantidad}}">
                             <button type="submit" name="accion" value="restar" class="btn btn-danger"></button>
-                            {% item.cantidad <=1 %}disabled{% endif %}>-</button>
+                            {% if item.cantidad < 1 %}disabled{% endif %}>-</button>
                                 <input type="text" name="nueva_cantidad" value="{{ item.cantidad }}" min="1"
                                     style="width: 60px; text-align: center;" readonly>
                                 <button type="submit" name="accion" value="sumar" class="btn btn-success"
-                                {% if item.cantidad >= item.stock %}disabled{% endif %}>+</button>
+                                {% if item.cantidad > item.stock %}disabled{% endif %}>+</button>
                         </form>
                     </td>
                     <td>${{ "{:,.0f}".formar(item.precio)}}</td>
                     <td>${{ "{:,.0f}".formar(item.precio * item.cantidad)}}</td>
                     <td>
-                        <a action="{{ url_for('eliminar_del_carrito', id=item.idProducto) }}"
+                        <a href="{{ url_for('eliminar_del_carrito', id=item.idProducto) }}"
                             class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
