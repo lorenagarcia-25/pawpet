@@ -200,6 +200,14 @@ def inventario():
     productos = cursor.fetchall()
     cursor.close()
     return render_template('inventario.html', productos=productos)
+    cursor.execute("SELECT id_categoria, nombre FROM categorias") 
+    categorias = cursor.fetchall()
+    cursor.close()
+    
+    return render_template('inventario.html', productos=productos, categorias=categorias)
+
+
+
 
 @app.route('/agregar_producto', methods=['GET','POST'])
 def agregar_producto():
@@ -228,9 +236,7 @@ def agregar_producto():
         
         
 
-@app.route('/sobre_nosotras')
-def sobre_nosotras ():
-    return render_template('sobre_nosotras.html')
+
 
 @app.route('/dashboard')
 def dashboard():
@@ -410,7 +416,7 @@ def vaciar_carrito():
     return redirect(url_for("carrito")) 
     
 
-
+#inicio inventario
 
 @app.route('/editar_producto/<int:id>', methods=['POST'])
 def editar_producto(id):
@@ -510,6 +516,7 @@ def eliminar_categoria(id):
     cursor.close()
     flash('categoria eliminado correctamente')
     return redirect(url_for('categoria'))
+#fin inventario
     
     
     
