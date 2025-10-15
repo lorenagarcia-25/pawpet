@@ -77,9 +77,16 @@ def login():
         password_ingresada = request.form['password'] 
         
         cur = mysql.connection.cursor()#metodo cursor
-        cur.execute("SELECT u.idUsuario,u.nombre,u.password,r.nombreRol FROM usuarios u JOIN usuario_rol ur ON u.idUsuario=ur.idUsuario JOIN roles r ON ur.idRol=r.idRol WHERE u.username = %s",(username,))
+        cur.execute("""
+        SELECT u.idUsuario, u.nombre, u.password, r.nombreRol
+        FROM usuarios u
+        JOIN usuario_rol ur ON u.idUsuario= ur.idUsuario  
+        JOIN roles r ON ur.idRol = r.idRol
+        WHERE u.username =%s            
+        """,(username,))
+
         usuario = cur.fetchone()
-        cur.close # va a cerrar esta conexion ( es el objeto de conexio de una base de datos)
+        
         
         if usuario and check_password_hash (usuario[2], password_ingresada):
             session['idUsuario']= usuario[0]
@@ -87,12 +94,20 @@ def login():
             session['rol'] = usuario [3]
             flash(f"¡Bienvenido {usuario [1]}!")
 
+            cur.execute("""
+            INSERT INTO registro_login (idUsuario, fecha)
+            VALUES (%s, NOW ())
+            """, (usuario[0],))
+            mysql.connection.commit()
+
+            cur.close()
+
             if usuario[3]=='Admin':
                 return redirect(url_for('dashboard'))
             elif usuario[3]== 'Usuario':
                 return redirect(url_for('index'))
             else: 
-                flash("rol no reconocido")
+                flash("Rol no reconocido")
                 return redirect(url_for('login'))
         else:
             flash("usuario o contraseña incorrecta")
@@ -244,7 +259,12 @@ def dashboard():
         flash("Debes iniciar sesion para acceder al dasboard")
         return redirect(url_for('login'))
     cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("SELECT idUsuario,nombre, apellido,username FROM usuarios")
+    cursor.execute("""
+      SELECT  u.idUsuario, u.nombre, u.apellido, u.username, r.nombreRol, ur.idRol
+      FROM usuarios u
+      LEFT JOIN usuario_rol ur ON u.idUsuario = ur.idUsuario
+                   LEFT JOIN roles r ON ur.idRol = r.idRol
+        """)
     usuarios = cursor.fetchall()
     cursor.close()
     return render_template('dashboard.html', usuarios=usuarios)
@@ -255,9 +275,17 @@ def actualizar (id):
     nombre=request.form ['nombre'] 
     apellido=request.form ['apellido'] 
     correo=request.form ['correo'] 
+    rol = request.form ['rol']
 
     cursor = mysql.connection.cursor()
     cursor.execute (""" UPDATE usuarios SET nombre= %s, apellido =%s, username=%s WHERE idUsuario=%s""",(nombre,apellido,correo,id))
+    cursor.execute ("SELECT * FROM usuario_rol WHERE id Usuario =%s", (id,))
+    existe = cursor.fetchone()
+
+    if existe:
+        cursor.execute("UPDATE usuario_rol SET idRol =%s WHERE idUsuario=%s", (rol,id) )
+    else:
+        cursor.execute("INSERT INTO usuario_rol(idUsuario, idRol) VALUES (%s, %s)", (id,rol))
     mysql.connection.commit()
     cursor.close()
 
