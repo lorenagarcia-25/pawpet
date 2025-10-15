@@ -31,8 +31,50 @@
                 <td> {{ u['apellido'] }}</td>
                 <td>{{ u['username'] }}</td>
                 <td>
-                    <button class="btn btn-warning btn-ms"> Editar</button>
+                    <button class="btn btn-warning btn-ms"data-bs-toggle="modal" 
+                    data-bs-target="#ModalEdit{{ u ['idUsuario']}}"> Editar</button>
+<!-- The Modal edit -->
+<div class="modal" id="ModalEdit{{ u ['idUsuario']}}" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel {{u['idUsuario']}}" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{url_for('actualizar', id= u['idUsuario'])}}" method="POST">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" id="EditModalLabel {{u['idUsuario']}}">Editar Usuario: {{u['nombre']}} {{u['apellido']}} </h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="form-group">
+          <label for="nombre{{ u['idUsuario']}}"> Nombre</label>
+           <input type="text" class="form-control" name="nombre" id="nombre{{u['idUsuario']}}" value="{{u['nombre']}}" required>
+          </div>
 
+          <div class="form-group">
+            <label for="apellido{{ u['idUsuario']}}"> Apellido</label>
+             <input type="text" class="form-control" name="apellido" id="apellido{{u['idUsuario']}}" value="{{u['apellido']}}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="correo{{ u['idUsuario']}}"> correo electrónico</label>
+                 <input type="email" class="form-control" name="correo" id="correo{{u['idUsuario']}}" value="{{u['username']}}" required>
+                </div>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+
+          <button type="button" class="btn btn-danger" 
+          data-bs-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </form>
+    </div>
+  </div>
 
                     <button class="btn btn-danger btn-ms" data-bs-toggle="modal"
                         data-bs-target="#ModalEliminar{{u['idUsuario']}}">Eliminar</button>

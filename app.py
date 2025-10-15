@@ -249,6 +249,20 @@ def dashboard():
     cursor.close()
     return render_template('dashboard.html', usuarios=usuarios)
 
+#Editar usuario
+@app.route('/actualizar/<int:id>', methods=['POST'])
+def actualizar (id):
+    nombre=request.form ['nombre'] 
+    apellido=request.form ['apellido'] 
+    correo=request.form ['correo'] 
+
+    cursor = mysql.connection.cursor()
+    cursor.execute (""" UPDATE usuarios SET nombre= %s, apellido =%s, username=%s WHERE idUsuario=%s""",(nombre,apellido,correo,id))
+    mysql.connection.commit()
+    cursor.close()
+
+    return redirect(url_for('dashboard'))
+
 
 @app.route('/eliminar/<int:id>')
 def eliminar(id):
