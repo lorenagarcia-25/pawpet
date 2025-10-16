@@ -319,6 +319,7 @@ def eliminar(id):
     flash ('Usuario eliminado')
     return redirect(url_for('dashboard'))
 
+ #catalogo
 @app.route ('/catalogo')
 def catalogo():
      cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
