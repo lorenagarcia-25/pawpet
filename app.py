@@ -231,9 +231,7 @@ def inventario():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("SELECT * FROM productos")
     productos = cursor.fetchall()
-    cursor.close()
-    return render_template('inventario.html', productos=productos)
-    cursor.execute("SELECT id_categoria, nombre FROM categorias") 
+    cursor.execute("SELECT idCategoria, nombre FROM categorias") 
     categorias = cursor.fetchall()
     cursor.close()
     
