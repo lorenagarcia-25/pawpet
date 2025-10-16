@@ -10,7 +10,25 @@ import smtplib
 from email.mime.text import MIMEText
 from werkzeug.utils import secure_filename
 import os
+import requests
+import threading
+import time
+# Configuración de CallMeBot (alertas por WhatsApp)
+WHATSAPP_PHONE = "573133874470"  # tu número con código de país, ej: 573001234567
+WHATSAPP_API_KEY = "1096550"  # la clave que te dio CallMeBot
 
+
+def enviar_alerta_whatsapp(mensaje):
+    """Envía un mensaje de WhatsApp usando CallMeBot."""
+    try:
+        url = f"https://api.callmebot.com/whatsapp.php?phone={WHATSAPP_PHONE}&text={mensaje}&apikey={WHATSAPP_API_KEY}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            print("Mensaje de WhatsApp enviado correctamente")
+        else:
+            print("Error al enviar mensaje:", response.text)
+    except Exception as e:
+        print("Error al conectar con CallMeBot:", e)
 
 def  generar_token (email):
     token = secrets.token_urlsafe(32)
@@ -560,13 +578,46 @@ def eliminar_categoria(id):
     return redirect(url_for('categoria'))
 #fin inventario
     
-    
-    
+def verificar_productos_vencimiento():
+    """Revisa productos con fecha de vencimiento cercana y envía alerta."""
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    hoy = datetime.now().date()
+    fecha_alerta = hoy + timedelta(days=3)  # alerta si vencen en 3 días
+    cursor.execute("SELECT nombre_producto, fecha_vencimiento FROM productos WHERE fecha_vencimiento <= %s", (fecha_alerta,))
+    productos = cursor.fetchall()
+    cursor.close()
+
+    if productos:
+        mensaje = "*Alerta de productos próximos a vencer:*\n"
+        for p in productos:
+            mensaje += f"- {p['nombre_producto']} (vence {p['fecha_vencimiento']})\n"
+        enviar_alerta_whatsapp(mensaje)
+    else:
+        print("No hay productos próximos a vencer.")
 
 
+def tarea_alerta_vencimiento():
+    """Ejecuta la verificación automática cada 24 horas."""
+    while True:
+        with app.app_context():
+            print("Ejecutando verificación de productos por vencer...")
+            verificar_productos_vencimiento()
+        # Esperar 24 horas (86400 segundos)
+        time.sleep(86400)
 
-    
 if __name__ == '__main__':
+    # 🔹 Primera ejecución al iniciar el servidor
+    with app.app_context():
+        verificar_productos_vencimiento()
+
+    # 🔹 Inicia hilo en segundo plano para verificación diaria
+    hilo = threading.Thread(target=tarea_alerta_vencimiento, daemon=True)
+    hilo.start()
+
+    # 🔹 Ejecuta el servidor Flask
     app.run(port=5000, debug=True)
+
+
+
     
 
