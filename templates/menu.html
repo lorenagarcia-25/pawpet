@@ -87,28 +87,40 @@
 
     <!-- DERECHA: buscador y usuario -->
     <div class="barra_derecha">
-      <!-- Script para búsqueda de productos  -->
-      <script>
-        // Escucha el evento 'keyup' en el campo con id 'buscador'
-        document.getElementById("buscador").addEventListener("keyup", function () {
-          // Captura el valor actual del input (lo que el usuario escribe)
-          let q = this.value;
 
-          // Realiza una petición GET al endpoint /buscar con el parámetro 'q' codificado
-          fetch(/buscar?q=${encodeURIComponent(q)})
-            .then(res => res.json()) // Convierte la respuesta en formato JSON
-            .then(data => {
-              let html = ""; // Variable para construir el HTML dinámico
 
-              // Si hay resultados en la respuesta
-              if (data.length > 0) {
-                data.forEach(p => { // Itera sobre cada producto 'p'
-                  html += `
+<!-- Buscador -->
+ <div class="container my-5"></div>
+<div class="input-group mb-4 mt-4 w-75 mx-auto">
+  <span class="input-group-text bg-dark text-white border-dark" id="label-buscador">
+    <i class="bi bi-search"></i>
+  </span>
+  <input type="text" id="buscador" class="form-control border-dark"
+         placeholder="Buscar Productos"
+         aria-label="Buscar productos" aria-describedby="label-buscador">
+</div>
+
+<!-- Contenedor donde se mostrarán los productos -->
+<div id="contenedor-productos" class= "row gy-4 gx-4" class="row"></div>
+
+
+<!-- Script para búsqueda de productos -->
+<script>
+document.getElementById("buscador").addEventListener("keyup", function() {
+    let q = this.value;
+
+    fetch(`/buscar?q=${encodeURIComponent(q)}`)
+      .then(res => res.json())
+      .then(data => {
+        let html = "";
+
+        if (data.length > 0) {
+          data.forEach(p => {
+            html += `
               <div class="col-12 col-md-6 col-lg-4 d-flex">
                 <article class="d-flex">
                   <div class="card border border-dark" style="--bs-card-border-radius:0; --bs-card-inner-border-radius:0;">
                     
-                    <!-- Imagen del producto con efecto hover y modal -->
                     <figure class="card-img-top m-0 overflow-hidden bsb-overlay-hover">
                       <a href="#!" data-bs-toggle="modal" data-bs-target="#modal${p.idProducto}">
                         <img class="img-fluid bsb-scale bsb-hover-scale-up" loading="lazy"
@@ -119,53 +131,41 @@
                       </figcaption>
                     </figure>
 
-                    <!-- Información del producto -->
                     <div class="card-body border-0 bg-white p-4">
                       <h5 class="card-title">${p.nombre_producto}</h5>
                       <p class="card-text text-secondary">${p.descripcion}</p>
                       <p class="card-text"><strong>$${new Intl.NumberFormat().format(p.precio)}</strong></p>
 
-                      <!-- Formulario para agregar al carrito -->
                       <form action="/agregarCarrito/${p.idProducto}" method="POST">
                         <input type="number" name="cantidad" value="1" min="1" max="${p.cantidad}" 
-                               class="form-control mb-2" ${p.cantidad == 0 ? "disabled" : ""}>
+                               class="form-control mb-2" ${p.cantidad==0 ? "disabled" : ""}>
                         
-                        <!-- Mensaje según disponibilidad -->
-                        ${p.cantidad == 0
-                      ? <p class="text-danger">Producto agotado</p>
-                      : <p class="text-muted">Disponibles: ${p.cantidad}</p>}
+                        ${p.cantidad == 0 
+                          ? `<p class="text-danger">Producto agotado</p>` 
+                          : `<p class="text-muted">Disponibles: ${p.cantidad}</p>`}
 
-                        <!-- Botón de agregar al carrito, deshabilitado si no hay stock -->
                         <button type="submit" 
-                          class="${p.cantidad == 0 ? "btn-secondary" : "btn-success"} w-100"
-                          ${p.cantidad == 0 ? "disabled" : ""}>Agregar al carrito</button>
+                          class="${p.cantidad==0 ? "btn-secondary" : "btn-success"} w-100"
+                          ${p.cantidad==0 ? "disabled" : ""}>Agregar al carrito</button>
                       </form>
                     </div>
                   </div>
                 </article>
               </div>
             `;
-                });
-              } else {
-                // Si no hay resultados, muestra un mensaje
-                html = "<p>No se encontraron resultados.</p>";
-              }
+          });
+        } else {
+          html = "<p>No se encontraron resultados.</p>";
+        }
 
-              // Inserta el HTML generado en el contenedor de productos
-              document.getElementById("contenedor-productos").innerHTML = html;
-            });
-        });</script>
+        document.getElementById("contenedor-productos").innerHTML = html;
+      })
+      .catch(err => console.error("Error en la búsqueda:", err));
+});
+</script>
 
-      // Buscador de productos  
-      <div class="input-group mb-4 mt-4 w-75 mx-auto">
-        <span class="input-group-text bg-dark text-white border-dark" id="label-buscador">
-          <i class="bi bi-search"></i>
-        </span>
-        <input type="text" id="buscador" class="form-control border-dark"
-          placeholder="Buscar productos por nombre o descripción..." aria-label="Buscar productos"
-          aria-describedby="label-buscador">
-      </div>
 
+             
 
 
       {% if session.get('rol') == 'admin' %}

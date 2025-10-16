@@ -1,5 +1,5 @@
 
-from flask import Flask, flash, redirect, render_template, request, url_for, session
+from flask import Flask, flash, redirect, render_template, request, url_for, session,jsonify
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -13,6 +13,7 @@ import os
 import requests
 import threading
 import time
+
 # Configuración de CallMeBot (alertas por WhatsApp)
 WHATSAPP_PHONE = "573133874470"  # tu número con código de país, ej: 573001234567
 WHATSAPP_API_KEY = "1096550"  # la clave que te dio CallMeBot
@@ -231,9 +232,7 @@ def inventario():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("SELECT * FROM productos")
     productos = cursor.fetchall()
-    cursor.close()
-    return render_template('inventario.html', productos=productos)
-    cursor.execute("SELECT id_categoria, nombre FROM categorias") 
+    cursor.execute("SELECT idCategoria, nombre FROM categorias") 
     categorias = cursor.fetchall()
     cursor.close()
     
@@ -318,6 +317,34 @@ def eliminar(id):
     cursor.close()
     flash ('Usuario eliminado')
     return redirect(url_for('dashboard'))
+
+#buscador
+@app.route('/buscar')
+def buscar():
+    try:
+        q = request.args.get('q', '').strip()
+        cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+        if q:
+            cur.execute("""
+                SELECT idProducto, nombre_producto, descripcion, precio, cantidad, imagen
+                FROM productos
+                WHERE nombre_producto LIKE %s OR descripcion LIKE %s
+            """, (f"%{q}%", f"%{q}%"))
+        else:
+            cur.execute("""
+                SELECT idProducto, nombre_producto, descripcion, precio, cantidad, imagen
+                FROM productos
+            """)
+
+        productos = cur.fetchall()
+        cur.close()
+        return jsonify(productos)
+    
+    except Exception as e:
+        print("❌ Error en /buscar:", e)
+        return jsonify({"error": str(e)}), 500
+
 
  #catalogo
 @app.route ('/catalogo')

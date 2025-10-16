@@ -35,7 +35,50 @@
   {% endwith %}
 
 
-  {% block content %} {% endblock %}
+  
+  {% block content %}
+<div class="row" id="productos">
+  {% for p in productos %}
+  <div class="col-12 col-md-6 col-lg-4 d-flex">
+    <article class="d-flex">
+      <div class="card border border-dark" style="--bs-card-border-radius:0; --bs-card-inner-border-radius:0;">
+
+        <figure class="card-img-top m-0 overflow-hidden bsb-overlay-hover">
+          <a href="#!" data-bs-toggle="modal" data-bs-target="#modal{{ p.idProducto }}">
+            <img class="img-fluid bsb-scale bsb-hover-scale-up" loading="lazy"
+                 src="{{ url_for('static', filename='uploads/' ~ p.imagen) }}" alt="{{ p.nombre_producto }}">
+          </a>
+          <figcaption>
+            <h4 class="h6 text-white mt-2">Ver producto</h4>
+          </figcaption>
+        </figure>
+
+        <div class="card-body border-0 bg-white p-4">
+          <h5 class="card-title">{{ p.nombre_producto }}</h5>
+          <p class="card-text text-secondary">{{ p.descripcion }}</p>
+          <p class="card-text"><strong>${{ "{:,}".format(p.precio) }}</strong></p>
+
+          <form action="/agregarCarrito/{{ p.idProducto }}" method="POST">
+            <input type="number" name="cantidad" value="1" min="1" max="{{ p.cantidad }}" 
+                   class="form-control mb-2" {% if p.cantidad == 0 %}disabled{% endif %}>
+
+            {% if p.cantidad == 0 %}
+              <p class="text-danger">Producto agotado</p>
+            {% else %}
+              <p class="text-muted">Disponibles: {{ p.cantidad }}</p>
+            {% endif %}
+
+            <button type="submit" 
+              class="w-100 {% if p.cantidad == 0 %}btn-secondary{% else %}btn-success{% endif %}"
+              {% if p.cantidad == 0 %}disabled{% endif %}>Agregar al carrito</button>
+          </form>
+        </div>
+      </div>
+    </article>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
 
 
 </body>
