@@ -100,6 +100,67 @@
          aria-label="Buscar productos" aria-describedby="label-buscador">
 </div>
 
+        
+      {% if session.get('rol') == 'admin' %}
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{{url_for('dashboard')}}">dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{{url_for('inventario')}}">Inventario</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{{url_for('catalogo')}}">catalogo</a>
+      </li>
+      {% endif %}
+
+      {% if session.get('usuario') %}
+      <div class="nav-item me-2">
+        <a class="nav-link text-white" href="{{url_for('carrito')}}"><i
+            class="bi bi-cart3 fs-1"></i>{{carrito_cantidad}}</a>
+      </div>
+
+      <div class="nav-item fs-5 ">
+        <a class="nav-link text-dark" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+      </div>
+      {% else %}
+      <a class="nav-link text-white" href="{{url_for('login')}} ">
+        <img src="{{ url_for('static', filename='img/usuario_logo.png') }}" alt="usuario" class="lusuario">
+      </a>
+      {% endif %}
+
+    </div>
+  </div>
+
+  <div class="menu-container">
+
+    <div class="dropdown" id="menuDropdown">
+      <button class="btn dropdown-togglee" type="button"></button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{{url_for('dashboard')}}">dashboard</a></li>
+        <li><a class="dropdown-item" href="{{url_for('inventario')}}">Inventario</a></li>
+        <li><a class="dropdown-item" href="{{url_for('catalogo')}}">catalogo</a></li>
+        <li><a class="dropdown-item" href="{{url_for('categorias')}}">categorias</a></li>
+        <li><a class="dropdown-item" href="">Comida</a></li>
+        <li><a class="dropdown-item" href="">Medicamentos</a></li>
+        <li><a class="dropdown-item" href="">Higiene</a></li>
+        <li><a class="dropdown-item" href="">Juguetes</a></li>
+        <li><a class="dropdown-item" href="">Accesorios</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('menuDropdown').classList.toggle('show');
+    }
+  </script>
+
+
+
 <!-- Contenedor donde se mostrarán los productos -->
 <div id="contenedor-productos" class= "row gy-4 gx-4" class="row"></div>
 
@@ -164,67 +225,6 @@ document.getElementById("buscador").addEventListener("keyup", function() {
 });
 </script>
 
-
-             
-
-
-      {% if session.get('rol') == 'admin' %}
-      <li class="nav-item">
-        <a class="nav-link text-white" href="{{url_for('dashboard')}}">dashboard</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="{{url_for('inventario')}}">Inventario</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="{{url_for('catalogo')}}">catalogo</a>
-      </li>
-      {% endif %}
-
-      {% if session.get('usuario') %}
-      <div class="nav-item me-2">
-        <a class="nav-link text-white" href="{{url_for('carrito')}}"><i
-            class="bi bi-cart3 fs-1"></i>{{carrito_cantidad}}</a>
-      </div>
-
-      <div class="nav-item fs-5 ">
-        <a class="nav-link text-dark" href="{{ url_for('logout') }}">Cerrar Sesión</a>
-      </div>
-      {% else %}
-      <a class="nav-link text-white" href="{{url_for('login')}} ">
-        <img src="{{ url_for('static', filename='img/usuario_logo.png') }}" alt="usuario" class="lusuario">
-      </a>
-      {% endif %}
-
-    </div>
-  </div>
-
-  <div class="menu-container">
-
-    <div class="dropdown" id="menuDropdown">
-      <button class="btn dropdown-togglee" type="button"></button>
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="{{url_for('dashboard')}}">dashboard</a></li>
-        <li><a class="dropdown-item" href="{{url_for('inventario')}}">Inventario</a></li>
-        <li><a class="dropdown-item" href="{{url_for('catalogo')}}">catalogo</a></li>
-        <li><a class="dropdown-item" href="{{url_for('categorias')}}">categorias</a></li>
-        <li><a class="dropdown-item" href="">Comida</a></li>
-        <li><a class="dropdown-item" href="">Medicamentos</a></li>
-        <li><a class="dropdown-item" href="">Higiene</a></li>
-        <li><a class="dropdown-item" href="">Juguetes</a></li>
-        <li><a class="dropdown-item" href="">Accesorios</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
-  <script>
-    function toggleMenu() {
-      document.getElementById('menuDropdown').classList.toggle('show');
-    }
-  </script>
 
 </body>
 
