@@ -71,7 +71,7 @@ app.secret_key = 'Maya'
 def contar_items_carrito():
     if 'idUsuario' in session:
         idUsuario = session ['idUsuario']
-        cursor =mysql.connection.cursor()
+        cursor = mysql.connection.cursor()
         cursor.execute("""
                        SELECT SUM(dc.cantidad)
                        FROM detalle_carrito dc
@@ -321,7 +321,7 @@ def eliminar(id):
 
 @app.route ('/catalogo')
 def catalogo():
-     cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
+     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
      cursor.execute("SELECT * FROM productos")
      productos = cursor.fetchall()
      cursor.close()
@@ -330,13 +330,13 @@ def catalogo():
 @app.route('/agregarCarrito/<int:id>', methods=['POST'])
 def agregarCarrito(id):
     if'usuario' not in session:
-        flash("debes iniciar sesion para comprar.")
+        flash("debes iniciar sesión para comprar.")
         return redirect(url_for('login'))
      
     cantidad = int(request.form['cantidad'])
     idUsuario = session.get('idUsuario')
      
-    cursor = mysql.connect.cursor()
+    cursor = mysql.connection.cursor()
     cursor.execute("SELECT cantidad FROM productos WHERE idProducto =%s", (id,))
     stock = cursor.fetchone()[0]
     cursor.execute("SELECT idCarrito FROM carrito WHERE idUsuario =%s", (idUsuario,))
@@ -352,7 +352,7 @@ def agregarCarrito(id):
      
     cursor.execute(""" SELECT cantidad FROM detalle_carrito
                     WHERE idCarrito = %s AND idProducto =%s 
-                     """, (idCarrito,id))
+                     """,(idCarrito,id))
     existente = cursor.fetchone()
     cantidad_total = cantidad
    
@@ -360,7 +360,7 @@ def agregarCarrito(id):
         cantidad_total += existente[0]
    
     if cantidad_total > stock:  
-        flash("no puedes agragar mas unidades  de las disponibles","warning")
+        flash("no puedes agragar más unidades  de las disponibles","warning")
         cursor.close()
         return redirect(url_for('catalogo'))
          
@@ -373,14 +373,14 @@ def agregarCarrito(id):
                        """, (nueva_cantidad, idCarrito,id))      
     else:
         cursor.execute("""
-            INSERT INTO detalle_carrito(idCarrito, idProducto,cantidad)
+            INSERT INTO detalle_carrito(idCarrito, idProducto, cantidad)
             VALUES (%s,%s,%s)
-            """,(idCarrito, id,cantidad))
+            """,(idCarrito, id, cantidad))
          
-    mysql.connect.commit()
+    mysql.connection.commit()
     cursor.close()
          
-    flash("producto agregado al carrito")
+    flash("Producto agregado al carrito")
     return redirect(url_for('catalogo'))
 
 
@@ -394,19 +394,19 @@ def carrito():
      
     cursor = mysql.connect.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("""
-            SELECT p.idProducto, p.nombre_producto, p.precio, p.imagen, dc.cantidad, p.cantidad AS stock
-            FROM detalle_carrito dc
-            JOIN carrito c ON dc.idCarrito = c.idCarrito
-            JOIN productos p ON dc.idProducto = idProducto
-            WHERE c.idUsuario = %s
-    """, (idUsuario,))
+                SELECT p.idProducto, p.nombre_producto, p.precio, p.imagen, dc.cantidad, p.cantidad AS stock
+                FROM detalle_carrito dc
+                JOIN carrito c ON dc.idCarrito = c.idCarrito
+                JOIN productos p ON dc.idProducto = p.idProducto
+                WHERE c.idUsuario = %s
+                    """, (idUsuario,))
     productos_carrito = cursor.fetchall()
     cursor.close()
     total = sum(item['precio'] * item['cantidad'] for item in productos_carrito)
    
     return render_template('carrito.html', productos=productos_carrito, total = total)
 
-@app.route('/actualizar_carrito/<int:id>', methods=['POST'])
+@app.route('/actualizar_carrito/<int:id>', methods=["POST"])
 def actualizar_carrito(id):
     accion = request.form.get("accion")
     cantidad_actual = int(request.form.get("cantidad_actual",1))
@@ -421,7 +421,7 @@ def actualizar_carrito(id):
 
     cursor = mysql.connection.cursor()
 
-    cursor.execute("SELECT cantidad FROM productos WRERE idProducto = %s", (id,))
+    cursor.execute("SELECT cantidad FROM productos WHERE idProducto = %s", (id,))
     stock = cursor.fetchone()[0]
 
     if nueva_cantidad > stock:
@@ -431,16 +431,16 @@ def actualizar_carrito(id):
     if nueva_cantidad > 0:
         cursor.execute("""
                 UPDATE detalle_carrito dc
-                JOIN carrito c ON dc.idCarrito= c.idCarrito
-                SET dc.cantiada = %s
-                WHERE c.idUsuario = %s AND dc.idProductos =%s 
-                """ (nueva_cantidad,idUsuario,id))
+                JOIN carrito c ON dc.idCarrito = c.idCarrito
+                SET dc.cantidad = %s
+                WHERE c.idUsuario = %s AND dc.idProducto = %s 
+                """, (nueva_cantidad, idUsuario, id))
     else:
         cursor.execute("""
-                       DELETE dc FROM detalle_carrito dc
-                       JOIN carrito c ON dc.idCarrito = c.idCarrito
-                       WHERE c.idUsuario = %s AND dc.idProducto = %s
-                       """,(idUsuario,id))    
+                DELETE dc FROM detalle_carrito dc
+                JOIN carrito c ON dc.idCarrito = c.idCarrito
+                WHERE c.idUsuario = %s AND dc.idProducto = %s
+                     """,(idUsuario,id))    
     mysql.connection.commit()
     cursor.close()
     
@@ -452,10 +452,10 @@ def eliminar_del_carrito(id):
     idUsuario = session.get("idUsuario")
     cursor = mysql.connection.cursor()
     cursor.execute("""
-                       DELETE dc FROM detalle_carrito dc
-                       JOIN carrito c ON dc.idCarrito = c.idCarrito
-                       WHERE c.idUsuario = %s AND dc.idProducto = %s
-                       """,(idUsuario,id)) 
+                DELETE dc FROM detalle_carrito dc
+                JOIN carrito c ON dc.idCarrito = c.idCarrito
+                WHERE c.idUsuario = %s AND dc.idProducto = %s
+                    """,(idUsuario,id)) 
     mysql.connection.commit()
     cursor.close()
     flash("Producto Eliminado", "danger")
@@ -466,10 +466,10 @@ def vaciar_carrito():
     idUsuario = session.get("idUsuario")
     cursor = mysql.connection.cursor()
     cursor.execute("""
-                       DELETE dc FROM detalle_carrito dc
-                       JOIN carrito c ON dc.idCarrito = c.idCarrito
-                       WHERE c.idUsuario = %s  
-                       """,(idUsuario,)) 
+                DELETE dc FROM detalle_carrito dc
+                JOIN carrito c ON dc.idCarrito = c.idCarrito
+                WHERE c.idUsuario = %s  
+                    """,(idUsuario,)) 
     mysql.connection.commit()
     cursor.close()
     flash("Carrito Vaciado", "warning")
