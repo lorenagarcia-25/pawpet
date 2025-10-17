@@ -30,11 +30,19 @@
                         <p class="card-text text-secondary">{{p.descripcion}}</p>
                         <p class="card-text"><strong>${{ "{:,.0f}".format(p.precio)}}</strong></p>
                         <form action="{{url_for('agregarCarrito', id=p.idProducto)}}" method="POST">
-                            <input type="number" name="cantidad" value="1" min="1" class="form-control mb-2">
-                            <button type="submit" class="btn-success w-100"> agregar al carrito</button>
+                            <input type="number" name="cantidad" value="1" min="1" max="{{p.cantidad}}"
+                                class="form-control mb-2" {% if p.cantidad==0 %}disabled{% endif %}>
+
+                            {% if p.cantidad ==0 %}
+                            <p class="text-danger ">Producto agotado</p>
+                            {% else%}
+                            <p class="text-success ">Disponible: {{p.cantidad}}</p>
+                            {% endif %}
+
+                            <button type="submit"
+                                class="{% if p.cantidad == 0 %}btn-secondary disabled{% else %}btn-success{% endif %} w-100"
+                                {% if p.cantidad==0 %}disabled{% endif %}> Agregar al carrito</button>
                         </form>
-
-
                     </div>
                 </div>
             </article>
@@ -67,11 +75,18 @@
                     <input type="hidden" name="idProducto" value="{{p.idProducto}}">
                     <div class="row g2 justify-content-center">
                         <div class="col-6 col-md-4">
-                            <input type="number" name="cantidad" value="1" min="1" class="form-control"
-                                aria-label="cantidad">
+                            <input type="number" name="cantidad" value="1" min="1" max="{{p.cantidad}}"
+                                class="form-control mb-2" {% if p.cantidad==0 %}disabled{% endif %}>
                         </div>
+                        {% if p.cantidad ==0 %}
+                        <p class="text-danger ">Producto agotado</p>
+                        {% else%}
+                        <p class="text-success ">Disponible: {{p.cantidad}}</p>
+                        {% endif %}
                         <div class="col-12 col-md-6">
-                            <button type="submit" class="btn btn-success w-100">Agregar al carrito</button>
+                            <button type="submit"
+                                class="{% if p.cantidad == 0 %}btn-secondary disabled{% else %}btn-success{% endif %} w-100"
+                                {% if p.cantidad==0 %}disabled{% endif %}> Agregar al carrito</button>
                         </div>
                     </div>
                 </form>

@@ -502,6 +502,47 @@ def vaciar_carrito():
     cursor.close()
     flash("Carrito Vaciado", "warning")
     return redirect(url_for("carrito")) 
+
+@app.route('/pago', methods=['GET', 'POST'])
+def pago():
+    if 'usuario' not in session:
+        flash("debes iniciar sesión para comprar.")
+        return redirect(url_for('login'))
+    
+    idUsuario = session.get('idUsuario')
+    
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("""
+                SELECT p.idProducto, p.nombre_producto, p.precio, dc.cantidad, p.cantidad AS stock
+                FROM detalle_carrito dc
+                JOIN carrito c ON dc.idCarrito = c.idCarrito
+                JOIN productos p ON dc.idProducto = p.idProducto
+                WHERE c.idUsuario = %s
+                    """, (idUsuario,))
+    productos = cursor.fetchall()
+    
+    total = sum(p['precio'] * p ['cantidad'] for p in productos)
+
+    if request.method == 'POST':
+        errores = []
+        for p in productos:
+            if p['cantidad'] > p['stock']:
+                errores.append(f"{p['nombre_producto']} excede el Stock disponible") 
+        if errores:
+            flash("Errores en el pago " + "; ".join(errores), "danger")
+            return redirect(url_for('carrito')) 
+        flash("Pago realizado con éxitosamente. Gracias por su compra!", "success")
+        
+        cursor.execute("""
+                    DELETE dc FROM detalle_carrito dc
+                    JOIN carrito c ON dc.idCarrito = c.idCarrito
+                    WHERE c.idUsuario = %s
+                    """, (idUsuario,))
+        mysql.connection.commit()
+        cursor.close()
+        return redirect(url_for('catalogo'))
+    cursor.close()
+    return render_template('pago.html', productos=productos, total=total)
     
 
 #inicio inventario

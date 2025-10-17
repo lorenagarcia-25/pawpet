@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %} pago {% endblock %}
+
+{% block content %}
+<div class="carrito-view">
+    <h2 style="text-align: center; margin-top: 20px;">Resumen de la compra</h2>
+    {% if productos %}
+    <div style="max-width: 1100px; margin: 0 auto; padding: 20px;">
+        <table class="tabla_carrito">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in productos %}
+                <tr>
+                    <td>{{ item.nombre_producto }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>${{ "{:,.0f}".format(item.precio)}}</td>
+                    <td>${{ "{:,.0f}".format(item.precio * item.cantidad)}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="total-box">
+        Total a pagar: ${{ "{:,.0f}".format(total)}}
+    </div>
+
+    <div style="margin-top:15px; text-align: right; padding: 0 20px;">
+        <form method="POST">
+            <button type="submit" class="btn btn-primary">Pagar</button>
+        </form>
+    </div>
+    {% else %}
+    <p style="text-align: center; font-size: 1.2em; margin-top: 20px;">No hay productos para mostrar.</p>
+    {% endif %}
+</div>
+{% endblock %}
