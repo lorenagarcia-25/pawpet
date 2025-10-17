@@ -26,7 +26,7 @@
 
   {% with messages = get_flashed_messages() %}
   {% if messages %}
-  <div class="container mt-3">
+  <div class="flash-container">
     {% for msg in messages %}
     <div class="alert alert-info text-center" role="alert">{{msg}}</div>
     {% endfor %}
@@ -36,7 +36,14 @@
 
 {% block content %}{% endblock %}
   
-  
+  <script>
+    setTimeout(() => {
+      const flashContainer = document.querySelector('.flash-container');
+      if (flashContainer) {
+        flashContainer.style.display = 'none';
+      }
+    }, 3000); // Oculta después de 3 segund
+  </script>
 
 </body>
 
