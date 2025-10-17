@@ -159,6 +159,8 @@
     }
   </script>
 
+
+
 <!-- Contenedor donde se mostrarán los productos -->
 <div id="contenedor-productos" class= "row gy-4 gx-4" class="row"></div>
 
@@ -167,7 +169,10 @@
 <script>
 document.getElementById("buscador").addEventListener("keyup", function() {
     let q = this.value;
-
+  if (q===""){
+    document.getElementById("contenedor-productos").innerHTML = "";
+    return;
+  }
     fetch(`/buscar?q=${encodeURIComponent(q)}`)
       .then(res => res.json())
       .then(data => {

@@ -214,21 +214,13 @@ def reset (token):
 
     return render_template('reset.html')
 
-def inventario():
-    #if 'rol' not in session or session['rol'] != 'admin':
-    #    flash("acceso  restringido solo parfa los administradores")
-    #    return redirect(url_for('login'))
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("SELECT * FROM productos")
-    productos = cursor.fetchall()
-    cursor.close()
-    return render_template('inventario.html', productos=productos)
+
 
 @app.route('/inventario')
 def inventario():
-    #if 'rol' not in session or session['rol'] != 'admin':
-    #    flash("acceso  restringido solo parfa los administradores")
-    #    return redirect(url_for('login'))
+    if 'rol' not in session or session['rol'] != 'admin':
+        flash("acceso  restringido solo parfa los administradores")
+        return redirect(url_for('login'))
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("SELECT * FROM productos")
     productos = cursor.fetchall()
@@ -518,7 +510,7 @@ def pago():
                 JOIN carrito c ON dc.idCarrito = c.idCarrito
                 JOIN productos p ON dc.idProducto = p.idProducto
                 WHERE c.idUsuario = %s
-                    """, (idUsuario,))
+                    """,(idUsuario,))
     productos = cursor.fetchall()
     
     total = sum(p['precio'] * p ['cantidad'] for p in productos)
@@ -586,6 +578,9 @@ def eliminar_producto(id):
 
 @app.route('/categorias', methods=['GET','POST'])
 def categorias():
+    if 'usuario' not in session:
+        flash("Debes iniciar sesion para acceder al dasboard")
+        return redirect(url_for('login'))
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("SELECT * FROM categorias")
     categorias = cursor.fetchall()
