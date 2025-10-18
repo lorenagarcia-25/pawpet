@@ -33,7 +33,7 @@ def enviar_alerta_whatsapp(mensaje):
 
 def  generar_token (email):
     token = secrets.token_urlsafe(32)
-    expiry=  datetime.now () + timedelta(hours =1)
+    expiry=  datetime.now() + timedelta(hours =1)
     cur = mysql.connection.cursor()
     cur.execute("UPDATE usuarios SET reset_token= %s, token_expiry= %s WHERE username = %s", (token, expiry, email))
     mysql.connection.commit()
@@ -115,9 +115,9 @@ def login():
              # Inicio
             cur.execute("""
             INSERT INTO registro_login (idUsuario, fecha)
-            VALUES (%s, NOW ())
+            VALUES (%s, NOW())
             """, (usuario[0],))
-            mysql.connection.commit() 
+            
 
             cur.close()
                 #redirigir segun el rol
