@@ -85,9 +85,21 @@ def contar_items_carrito():
     return dict(carrito_cantidad=0)
      
 @app.route("/")
-def index():
-    #usuamos render_template para mostar el archivo 'index,html'
- return render_template ('index.html')
+def index(): 
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+    # 🔹 Traer productos
+    cursor.execute("SELECT * FROM categorias")
+    productos = cursor.fetchall()
+
+    # 🔹 Traer categorías
+    cursor.execute("SELECT * FROM categorias")
+    categorias = cursor.fetchall()
+
+    cursor.close()
+
+    # 🔹 Enviar ambos al template
+    return render_template('index.html', productos=productos)
 
 @app.route('/login', methods =['GET', 'POST'])
 def login():
@@ -218,9 +230,9 @@ def reset (token):
 
 @app.route('/inventario')
 def inventario():
-    if 'rol' not in session or session['rol'] != 'admin':
-        flash("acceso  restringido solo parfa los administradores")
-        return redirect(url_for('login'))
+    #if 'rol' not in session or session['rol'] != 'admin':
+    #   flash("acceso  restringido solo parfa los administradores")
+    #   return redirect(url_for('login'))
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("SELECT * FROM productos")
     productos = cursor.fetchall()
@@ -244,12 +256,16 @@ def agregar_producto():
         precio=request.form['precio']
         imagen=request.files['imagen']
         cantidad=request.form['cantidad']
+        idCategoria = request.form['categoria']
 
         
         filename=secure_filename(imagen.filename)
         imagen.save(os.path.join('static/uploads',filename))
         cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO productos (nombre_producto,descripcion,precio,cantidad,imagen)VALUES(%s,%s,%s,%s,%s)",(nombre,descripcion,precio,cantidad,filename))
+        cursor.execute("""
+        INSERT INTO productos (nombre_producto, descripcion, precio, cantidad, imagen, idCategoria)
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """,(nombre, descripcion, precio, cantidad, filename, idCategoria))
         mysql.connection.commit()
         cursor.close()
 
@@ -536,7 +552,6 @@ def pago():
     cursor.close()
     return render_template('pago.html', productos=productos, total=total)
 
-    
 
 #inicio inventario
 
@@ -547,6 +562,7 @@ def editar_producto(id):
     precio = request.form['precio']
     cantidad = request.form['cantidad']
     imagen = request.files['imagen']
+    categoria = request.form['categoria']
     
     cursor= mysql.connection.cursor()
     if imagen and imagen.filename != '':
@@ -554,15 +570,15 @@ def editar_producto(id):
         imagen.save(os.path.join('static/uploads', filename))
         cursor.execute("""
                        UPDATE productos
-                       SET nombre_producto=%s, descripcion=%s, precio=%s, cantidad=%s, imagen=%s
+                       SET nombre_producto=%s, descripcion=%s, precio=%s, cantidad=%s, imagen=%s, idCategoria=%s
                        WHERE idProducto=%s
-                       """, (nombre, descripcion, precio, cantidad, filename, id))
+                       """, (nombre, descripcion, precio, cantidad, filename, categoria,id))
     else:
         cursor.execute("""
                        UPDATE productos
-                       SET nombre_producto=%s, descripcion=%s, precio=%s, cantidad=%s
+                       SET nombre_producto=%s, descripcion=%s, precio=%s, cantidad=%s,idCategoria=%s
                        WHERE idProducto=%s
-                       """, (nombre, descripcion, precio, cantidad, id))
+                       """, (nombre, descripcion, precio, cantidad, categoria, id))
     mysql.connection.commit()
     cursor.close()
     flash("Producto actualizado correctamente")
