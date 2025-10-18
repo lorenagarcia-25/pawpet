@@ -535,6 +535,7 @@ def pago():
         return redirect(url_for('catalogo'))
     cursor.close()
     return render_template('pago.html', productos=productos, total=total)
+
     
 
 #inicio inventario
