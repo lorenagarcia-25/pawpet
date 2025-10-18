@@ -15,7 +15,7 @@
    overflow-x: auto;
    /* permite desplazamiento si no cabe */
    gap: 6px;
-   padding: 0px 30px;
+   padding: 0px 20px;
    /*largo y ancho*/
    margin-top: 15px;
    height: 79px;
@@ -79,6 +79,7 @@
    font-family: 'Times New Roman', Times, serif;
    margin-bottom: 0px;
    color: black;
+   margin-top: 60px;
  }
 
 
