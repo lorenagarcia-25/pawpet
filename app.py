@@ -619,18 +619,18 @@ def editar_categoria (id):
         cursor.execute("""
                        UPDATE categorias
                        SET nombre=%s, descripcion=%s, imagen=%s
-                       WHERE idCategorias=%s
-                       """, (nombre, descripcion, imagen, filename, id))
+                       WHERE idCategoria=%s
+                       """, (nombre, descripcion,  filename, id))
     else:
         cursor.execute("""
                        UPDATE categorias
                        SET nombre=%s, descripcion=%s, imagen=%s
-                       WHERE idCategorias=%s
+                       WHERE idCategoria=%s
                        """, (nombre, descripcion,imagen , id))
     mysql.connection.commit()
     cursor.close()
     flash("categoria actualizado correctamente")
-    return redirect(url_for('categoria'))
+    return redirect(url_for('categorias'))
     
 @app.route('/eliminar_categoria/<int:id>')
 def eliminar_categoria(id):
@@ -639,7 +639,7 @@ def eliminar_categoria(id):
     mysql.connection.commit()
     cursor.close()
     flash('categoria eliminado correctamente')
-    return redirect(url_for('categoria'))
+    return redirect(url_for('categorias'))
 #fin inventario
     
 def verificar_productos_vencimiento():
