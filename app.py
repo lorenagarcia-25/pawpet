@@ -112,15 +112,15 @@ def login():
             session ['usuario'] = usuario[1]
             session['rol'] = usuario [3]
             flash(f"¡Bienvenido {usuario [1]}!")
-
+             # Inicio
             cur.execute("""
             INSERT INTO registro_login (idUsuario, fecha)
             VALUES (%s, NOW ())
             """, (usuario[0],))
-            mysql.connection.commit()
+            mysql.connection.commit() 
 
             cur.close()
-
+                #redirigir segun el rol
             if usuario[3]=='Admin':
                 return redirect(url_for('dashboard'))
             elif usuario[3]== 'Usuario':
