@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-10-2025 a las 15:42:42
+-- Tiempo de generación: 21-10-2025 a las 15:13:16
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -51,7 +51,7 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`idCategoria`, `nombre`, `descripcion`, `imagen`) VALUES
-(1, 'alimentos', 'aimenas', 'collar-para-dama-collares-mayoreo-bisuteria-fina-D_NQ_NP_139425-MLM25445564656_032017-F.jpg');
+(1, 'Alimentos', 'Alimentos para perros', 'perro-alimento-comercial.webp');
 
 -- --------------------------------------------------------
 
@@ -133,7 +133,7 @@ CREATE TABLE `productos` (
 
 INSERT INTO `productos` (`idProducto`, `nombre_producto`, `descripcion`, `precio`, `cantidad`, `fecha_vencimiento`, `imagen`, `idCategoria`) VALUES
 (1, 'higiene', 'shampoo', 20000, 4, '2025-10-20', 'Captura_de_pantalla_2025-09-24_231410.png', NULL),
-(2, 'dog chow', 'comida para perro', 5000, 1, NULL, 'descarga.jpeg', NULL);
+(2, 'dog chow', 'comida para perro', 5000, 1, NULL, 'descarga.jpeg', 1);
 
 -- --------------------------------------------------------
 
@@ -188,9 +188,10 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `username`, `password`, `reset_token`, `token_expiry`) VALUES
 (3, 'lorens', 'garcia', 'lorena@gmail.com', 'scrypt:32768:8:1$ADTT1KAVY1PYljWX$334a72bfb78fc36278de3bdedd1df1ff8ade2e95465b2cae0f11ebc3ad02094f2332b259cac7f32f10c3c3bc1fa9a9c7ece1a3b63d5b025f9bbd7d66566cbe42', NULL, NULL),
-(4, 'Gabriela', 'Ortega', 'jeonmagalum@gmail.com', 'scrypt:32768:8:1$N7H3AlZZIzxM1QvV$c215430a946dad60fad3df1bf96351a1475fc72b78d9023d63a10ad418e78fe0ef7b37b602756c46636a0e8d4d1bee81a59d59be1b736122c9bf77787293407f', NULL, NULL),
+(4, 'Gabriela', 'Ortega', 'jeonmagalum@gmail.com', 'scrypt:32768:8:1$zovk1imkeLUJto1m$7cd412993bd0f2d0ba41903cfa39ef988c48cd2adaab1f26b066ea22bd7c40237f45517442289690472d4160f413f33d4c830e78e2cc9bef173fd64c3d6c2dd3', NULL, NULL),
 (5, 'maya', 'ortega', 'magalum8gm@gmail.com', 'scrypt:32768:8:1$Vk1jg8WGADisznnr$51824822e5ea79254a1ac35e01fb17a20847793d8138e4547ee7c352f0840e690a6f33cc05545a2c6f3f0c5e9223349b74dc394d2baf78dbacbeaeb1bdd829a7', NULL, NULL),
-(10, 'maya', 'ortega', 'maya@gmail.com', 'scrypt:32768:8:1$FiLVD7Ta83CF2K1C$63245d37e824ab8e58283f8d36ec9f96b3550267de8faa703add7c5bc403a4c2c92e8c7787f1e4c97cfdfe07b88c21b7bacec0b3a477708841c32cff91d65393', NULL, NULL);
+(10, 'maya', 'ortega', 'maya@gmail.com', 'scrypt:32768:8:1$FiLVD7Ta83CF2K1C$63245d37e824ab8e58283f8d36ec9f96b3550267de8faa703add7c5bc403a4c2c92e8c7787f1e4c97cfdfe07b88c21b7bacec0b3a477708841c32cff91d65393', NULL, NULL),
+(11, 'Gabriela', 'Cuy', 'gabycuy@gmail.com', 'scrypt:32768:8:1$l0LFj4jDbWEyZhVw$7d7221f6dd8d7250981d687eb20f4c3871553de3092be2c087f4c286a05acd3b2a02159690843f88faa2721c9fe84ce6917f8fc93ca9d2c4935858d813b146a3', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -208,7 +209,11 @@ CREATE TABLE `usuario_rol` (
 --
 
 INSERT INTO `usuario_rol` (`idUsuario`, `idRol`) VALUES
-(10, 2);
+(3, 1),
+(4, 1),
+(5, 2),
+(10, 2),
+(11, 1);
 
 --
 -- Índices para tablas volcadas
@@ -341,7 +346,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `registro_login`
 --
 ALTER TABLE `registro_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -353,7 +358,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
