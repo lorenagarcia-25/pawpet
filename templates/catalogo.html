@@ -1,18 +1,24 @@
 {% extends 'base.html' %}
-{% block title %} index {% endblock %}
+
+{% block title %} catalogo {% endblock %}
+
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='catalogo.css') }}">
+
 <div class="container overflow-hidden">
-    <div class="row gy-4 gy-xxl-5">
-        {% for p in productos %}
-        <div class="col-12 col-md-6 col-lg-4 d-flex">
-            <article class="d-flex">
-                <div class="card border border-dark"
-                    style="--bs-card-border-radius: 0; --bs-card-inner-border-radius: 0;">
-                    <figure class="card-img-top m-0 overflow-hidden bsb-overlay-hover">
-                        <a href="#!" data-bs-toggle="modal" data-bs-target="#modal{{p.idProducto}}">
-                            <img class="img-fluid bsb-scale bsb-hover-scale-up" loading="lazy"
-                                src="{{url_for('static', filename = 'uploads/' + p.imagen)}}"
-                                alt="{{p.nombre_producto}}">
+  <div class="row gx-6 gy-6 justify-content-center">
+    {% for p in productos %}
+    <div class="col-12 col-sm-6 col-md-4 col-lg-2 p-1">
+      <div class="card h-100 w-100 shadow rounded-2" 
+           style="background-color:#b2dafa; border: 2px solid #000; margin-top: 5px;">
+        <figure class="card-img-top m-0 overflow-hidden bsb-overlay-hover">
+          <a href="#!" data-bs-toggle="modal" data-bs-target="#modal{{p.idProducto}}">
+            <img class="img-fluid rounded-top" 
+                 style="max-height: 160px; object-fit: cover;" 
+                 loading="lazy"
+                 src="{{url_for('static', filename = 'uploads/' + p.imagen)}}"
+                 alt="{{p.nombre_producto}}">
+
                         </a>
                         <figcaption>
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
@@ -45,7 +51,7 @@
                         </form>
                     </div>
                 </div>
-            </article>
+
         </div>
         {% endfor %}
     </div>
