@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block title %} index {% endblock %}
 {% block content %}
+<!-- Contenido central -->
+<div class="contenido_central">
+  <h1 class="titulo">INVENTARIO</h1>
+  <!-- <img src="{{ url_for('static', filename='img/Index.png') }}" alt="imagen" class="imagen">-->
+</div>
 <div class="container overflow-hidden mt-4">
   <div class="row gy-4 gy-xxl-5">
     {% for p in productos %}
@@ -9,7 +14,7 @@
         <div class="card border border-dark w-100"
           style="--bs-card-border-radius: 0; --bs-card-inner-border-radius: 0;">
           <figure class="card-img-top m-0 overflow-hidden bsb-overlay-hover">
-            <a href="#!" data-bs-toggle="modal" data-bs-target="#modal{{ p.idProducto }}">
+            <a href="#!" onclick="mostrarCategoria({{p.idCategoria}})">
               <img class="img-fluid bsb-scale bsb-hover-scale-up"
                 src="{{ url_for('static', filename='categorias/' + (p.imagen or 'no_image.png')) }}"
                 >
@@ -60,11 +65,7 @@
 
 
 
-<!-- Contenido central -->
-<div class="contenido_central">
-  <h1 class="titulo">INVENTARIO</h1>
-  <!-- <img src="{{ url_for('static', filename='img/Index.png') }}" alt="imagen" class="imagen">-->
-</div>
+
 <div class="container overflow-hidden">
   <div class="row gy-4 gy-xxl-5">
   

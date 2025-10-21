@@ -304,7 +304,7 @@ def actualizar (id):
 
     cursor = mysql.connection.cursor()
     cursor.execute (""" UPDATE usuarios SET nombre= %s, apellido =%s, username=%s WHERE idUsuario=%s""",(nombre,apellido,correo,id))
-    cursor.execute ("SELECT * FROM usuario_rol WHERE id Usuario =%s", (id,))
+    cursor.execute ("SELECT * FROM usuario_rol WHERE idUsuario =%s", (id,))
     existe = cursor.fetchone()
 
     if existe:
@@ -315,6 +315,40 @@ def actualizar (id):
     cursor.close()
 
     return redirect(url_for('dashboard'))
+
+@app.route ('/productos_por_categoria/<int:idCategoria>')
+def productos_por_categoria (idCategoria):
+    cursor = mysql.connection.cursor()
+    cursor.execute (""" SELECT idProducto, nombre_producto, descripcion, precio, cantidad, imagen
+                    FROM productos
+                    WHERE idCategoria= %s
+                    """, (idCategoria,)
+                    )
+    productos=cursor.fetchall()
+    data=[]
+    for p in productos:
+        data.append({
+            'idProducto': p[0],
+             'nombre_producto': p[1],
+              'descripcion': p[2],
+               'precio': p[3],
+                'cantidad': p[4],
+                 'imagen': p[5] or 'no_image.png'
+        })
+    return jsonify(data)    
+
+@app.route('/categorias_disponibles')
+def categorias_disponibles():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT idCategoria, nombre FROM categorias")
+    categorias = cursor.fetchall()
+    cursor.close()
+
+    data = [{'idCategoria': c[0], 'nombre': c[1]} for c in categorias]
+    return jsonify(data)
+
+
+
 
 
 @app.route('/eliminar/<int:id>')

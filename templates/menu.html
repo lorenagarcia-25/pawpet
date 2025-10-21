@@ -31,7 +31,7 @@
       background-color: #8ab4f2;
       margin-top: -20px;
       margin-left: 5px;
-      height: 160px;
+      
       box-sizing: border-box;
     }
 
@@ -138,7 +138,7 @@
 
     <div class="dropdown" id="menuDropdown">
       <button class="btn dropdown-togglee" type="button"></button>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu" id="listaMenu">
         <li><a class="dropdown-item" href="{{url_for('dashboard')}}">dashboard</a></li>
         <li><a class="dropdown-item" href="{{url_for('inventario')}}">Inventario</a></li>
         <li><a class="dropdown-item" href="{{url_for('catalogo')}}">catalogo</a></li>
@@ -225,6 +225,139 @@ document.getElementById("buscador").addEventListener("keyup", function() {
       .catch(err => console.error("Error en la búsqueda:", err));
 });
 </script>
+
+<script>
+  function mostrarCategoria(idCategoria){
+      fetch(`/productos_por_categoria/${idCategoria}`)
+        .then(res => res.json())
+        .then(data => {
+          let html = "";
+  
+          if (data.length > 0) {
+            data.forEach(p => {
+              html += `
+                <div class="col-12 col-md-6 col-lg-4 d-flex">
+                  <article class="d-flex">
+                    <div class="card border border-dark" style="--bs-card-border-radius:0; --bs-card-inner-border-radius:0;">
+                      
+                      <figure class="card-img-top m-0 overflow-hidden bsb-overlay-hover">
+                        <a href="#!" data-bs-toggle="modal" data-bs-target="#modal${p.idProducto}">
+                          <img class="img-fluid bsb-scale bsb-hover-scale-up" loading="lazy"
+                               src="/static/uploads/${p.imagen}" alt="${p.nombre_producto}">
+                        </a>
+                        <figcaption>
+                          <h4 class="h6 text-white mt-2">Ver producto</h4>
+                        </figcaption>
+                      </figure>
+  
+                      <div class="card-body border-0 bg-white p-4">
+                        <h5 class="card-title">${p.nombre_producto}</h5>
+                        <p class="card-text text-secondary">${p.descripcion}</p>
+                        <p class="card-text"><strong>$${new Intl.NumberFormat().format(p.precio)}</strong></p>
+  
+                        <form action="/agregarCarrito/${p.idProducto}" method="POST">
+                          <input type="number" name="cantidad" value="1" min="1" max="${p.cantidad}" 
+                                 class="form-control mb-2" ${p.cantidad==0 ? "disabled" : ""}>
+                          
+                          ${p.cantidad == 0 
+                            ? `<p class="text-danger">Producto agotado</p>` 
+                            : `<p class="text-muted">Disponibles: ${p.cantidad}</p>`}
+  
+                          <button type="submit" 
+                            class="${p.cantidad==0 ? "btn-secondary" : "btn-success"} w-100"
+                            ${p.cantidad==0 ? "disabled" : ""}>Agregar al carrito</button>
+                        </form>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              `;
+            });
+          } else {
+            html = "<p>No se encontraron resultados.</p>";
+          }
+  
+          document.getElementById("contenedor-productos").innerHTML = html;
+        })
+        .catch(err => console.error("Error al cargar la categoria:", err));
+  };
+  </script>
+
+  <!-- Script para búsqueda de productos -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+  
+      fetch(`/categorias_disponibles`)
+        .then(res => res.json())
+        .then(categorias => {
+          if(categorias.length===0)
+          return;
+        const titulo=document.createElement("li");
+        titulo.innerHTML=`<h6 class="dropdown-header"> categorias disponibles</h6>`;
+        listaMenu.appendChild(titulo);
+        categorias.forEach(cat=>{
+          const li=document.createElement("li");
+          li.innerHTML=`<a class="dropdown-item" onclick="mostrarCategoriaPorNombre('${cat.nombre}')"> ${cat.nombre} </a>`;
+          listaMenu.appendChild(li);
+        });
+        }).catch(err=>console.error("error al cargar las categorias",err));
+        });
+        function mostrarCategoriaPorNombre (nombreCategoria){
+          fetch(`/productos_por_nombre_categoria/${encodeURIComponent(nombreCategoria)}`)
+          .then(res => res.json())
+        .then(data => { 
+        const contenedor=document.getElementById("contenedor-productos");
+          let html = "";
+  
+          if (data.length === 0) {
+            html= `<p class="text-center mt-3"> No hay productos en esta categoria </p> `;
+            } else{
+            data.forEach(p => {
+              html += `
+                <div class="col-12 col-md-6 col-lg-4 d-flex">
+                  <article class="d-flex">
+                    <div class="card border border-dark" style="--bs-card-border-radius:0; --bs-card-inner-border-radius:0;">
+                      
+                      <figure class="card-img-top m-0 overflow-hidden bsb-overlay-hover">
+                        <a href="#!" data-bs-toggle="modal" data-bs-target="#modal${p.idProducto}">
+                          <img class="img-fluid bsb-scale bsb-hover-scale-up" loading="lazy"
+                               src="/static/uploads/${p.imagen}" alt="${p.nombre_producto}">
+                        </a>
+                        <figcaption>
+                          <h4 class="h6 text-white mt-2">Ver producto</h4>
+                        </figcaption>
+                      </figure>
+  
+                      <div class="card-body border-0 bg-white p-4">
+                        <h5 class="card-title">${p.nombre_producto}</h5>
+                        <p class="card-text text-secondary">${p.descripcion}</p>
+                        <p class="card-text"><strong>$${new Intl.NumberFormat().format(p.precio)}</strong></p>
+  
+                        <form action="/agregarCarrito/${p.idProducto}" method="POST">
+                          <input type="number" name="cantidad" value="1" min="1" max="${p.cantidad}" 
+                                 class="form-control mb-2" ${p.cantidad==0 ? "disabled" : ""}>
+                          
+                          ${p.cantidad == 0 
+                            ? `<p class="text-danger">Producto agotado</p>` 
+                            : `<p class="text-muted">Disponibles: ${p.cantidad}</p>`}
+  
+                          <button type="submit" 
+                            class="${p.cantidad==0 ? "btn-secondary" : "btn-success"} w-100"
+                            ${p.cantidad==0 ? "disabled" : ""}>Agregar al carrito</button>
+                        </form>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              `;
+            });
+          }
+  
+         contenedor.innerHTML = html;
+        })
+        .catch(err => console.error("Error al mostrar productos:", err));
+  };
+  </script>
 
 
 
