@@ -31,7 +31,7 @@
       background-color: #8ab4f2;
       margin-top: -20px;
       margin-left: 5px;
-      height: 360px;
+      height: 160px;
       box-sizing: border-box;
     }
 
@@ -65,7 +65,10 @@
       .dropdown-item {
         text-align: center;
         font-size: 15px;
+
       }
+    
+       
     }
   </style>
 </head>
@@ -90,8 +93,8 @@
 
 
 <!-- Buscador -->
- <div class="container my-5"></div>
-<div class="input-group mb-4 mt-4 w-75 mx-auto">
+ <div class="container "></div>
+<div class="input-group  " style="margin-right:10px ;width: 600px;">
   <span class="input-group-text bg-dark text-white border-dark" id="label-buscador">
     <i class="bi bi-search"></i>
   </span>
@@ -114,12 +117,12 @@
       {% endif %}
 
       {% if session.get('usuario') %}
-      <div class="nav-item me-2">
-        <a class="nav-link text-white" href="{{url_for('carrito')}}"><i
+      <div class="nav-item me-3">
+        <a class="nav-link text-white d-flex align-items-center" href="{{url_for('carrito')}}"><i
             class="bi bi-cart3 fs-1"></i>{{carrito_cantidad}}</a>
       </div>
 
-      <div class="nav-item fs-5 ">
+      <div class="nav-item fs-5" style="margin-right:30px">
         <a class="nav-link text-dark" href="{{ url_for('logout') }}">Cerrar Sesión</a>
       </div>
       {% else %}
@@ -140,11 +143,6 @@
         <li><a class="dropdown-item" href="{{url_for('inventario')}}">Inventario</a></li>
         <li><a class="dropdown-item" href="{{url_for('catalogo')}}">catalogo</a></li>
         <li><a class="dropdown-item" href="{{url_for('categorias')}}">categorias</a></li>
-        <li><a class="dropdown-item" href="">Comida</a></li>
-        <li><a class="dropdown-item" href="">Medicamentos</a></li>
-        <li><a class="dropdown-item" href="">Higiene</a></li>
-        <li><a class="dropdown-item" href="">Juguetes</a></li>
-        <li><a class="dropdown-item" href="">Accesorios</a></li>
       </ul>
     </div>
   </div>
