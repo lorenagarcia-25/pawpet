@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} Confirmaciónpago {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='catalogo.css') }}">
+<div  class="text-center mt-5">
+    <h2 >¡Gracias por tu compra!</h2>
+    <p>metodo de pago: <strong>{{ metodo }}</strong></p>
+    <p>codigo de transacción: <strong>{{ codigo }}</strong></p>
+    <p>Total pagado: <strong>${{ "{:,.0f}".format(total)}}</strong></p>
+    <a href="{{url_for('catalogo')}}" class="btn btn-success mt3">volver al catalogo</a>
+</div>
+
+{% endblock %}

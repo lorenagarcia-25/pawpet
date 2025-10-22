@@ -13,6 +13,7 @@ import os
 import requests
 import threading
 import time
+import random
 
 # Configuración de CallMeBot (alertas por WhatsApp)
 WHATSAPP_PHONE = "573133874470"  # tu número con código de país, ej: 573001234567
@@ -566,6 +567,7 @@ def pago():
     total = sum(p['precio'] * p ['cantidad'] for p in productos)
 
     if request.method == 'POST':
+        metodo = request.form.get('metodo_pago')
         errores = []
         for p in productos:
             if p['cantidad'] > p['stock']:
@@ -573,7 +575,18 @@ def pago():
         if errores:
             flash("Errores en el pago " + "; ".join(errores), "danger")
             return redirect(url_for('carrito')) 
-        flash("Pago realizado con éxitosamente. Gracias por su compra!", "success")
+        
+        codigo_transaccion = f"TX{random.randint(100000,999999)}"
+        flash(f"pago realizado con {metodo}. Código de transacción: {codigo_transaccion}", "success")
+        
+        for p in productos:
+            nueva_cantidad = p['stock'] - p['cantidad']
+            
+            cursor.execute("""
+                           UPDATE productos
+                           SET cantidad = %s
+                           WHERE idProducto = %s
+                           """, (nueva_cantidad, p['idProducto']))
         
         cursor.execute("""
                     DELETE dc FROM detalle_carrito dc
@@ -582,10 +595,16 @@ def pago():
                     """, (idUsuario,))
         mysql.connection.commit()
         cursor.close()
-        return redirect(url_for('catalogo'))
+        return redirect(url_for('confirmar_pago', metodo=metodo, codigo=codigo_transaccion, total=total))
     cursor.close()
     return render_template('pago.html', productos=productos, total=total)
 
+@app.route('/confirmar_pago')
+def confirmar_pago():
+    metodo = request.args.get('metodo')
+    codigo = request.args.get('codigo')
+    total = request.args.get('total')
+    return render_template('confirmacion_pago.html', metodo=metodo, codigo=codigo, total=float(total))
 
 #inicio inventario
 
