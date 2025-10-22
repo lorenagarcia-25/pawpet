@@ -166,65 +166,76 @@
 <!-- Script para búsqueda de productos -->
 <script>
 document.getElementById("buscador").addEventListener("keyup", function() {
-    let q = this.value;
-  if (q===""){
+  let q = this.value;
+  if (q === "") {
     document.getElementById("contenedor-productos").innerHTML = "";
     return;
   }
-    fetch(`/buscar?q=${encodeURIComponent(q)}`)
-      .then(res => res.json())
-      .then(data => {
-        let html = "";
 
-        if (data.length > 0) {
-          data.forEach(p => {
-            html += `
-              <div class="col-12 col-md-6 col-lg-4 d-flex">
-                <article class="d-flex">
-                  <div class="card border border-dark" style="--bs-card-border-radius:0; --bs-card-inner-border-radius:0;">
-                    
-                    <figure class="card-img-top m-0 overflow-hidden bsb-overlay-hover">
-                      <a href="#!" data-bs-toggle="modal" data-bs-target="#modal${p.idProducto}">
-                        <img class="img-fluid bsb-scale bsb-hover-scale-up" loading="lazy"
-                             src="/static/uploads/${p.imagen}" alt="${p.nombre_producto}">
-                      </a>
-                      <figcaption>
-                        <h4 class="h6 text-white mt-2">Ver producto</h4>
-                      </figcaption>
-                    </figure>
+  fetch(`/buscar?q=${encodeURIComponent(q)}`)
+    .then(res => res.json())
+    .then(data => {
+      let html = "";
 
-                    <div class="card-body border-0 bg-white p-4">
-                      <h5 class="card-title">${p.nombre_producto}</h5>
-                      <p class="card-text text-secondary">${p.descripcion}</p>
-                      <p class="card-text"><strong>$${new Intl.NumberFormat().format(p.precio)}</strong></p>
+      if (data.length > 0) {
+        data.forEach(p => {
+          html += `
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2 p-1">
+              <div class="card h-100 w-100 shadow rounded-2"
+                   style="background-color:#b2dafa; border: 2px solid #000; margin-top: 5px;">
+                
+                <figure class="card-img-top m-0 overflow-hidden bsb-overlay-hover">
+                  <a href="#!" data-bs-toggle="modal" data-bs-target="#modal${p.idProducto}">
+                    <img class="img-fluid rounded-top"
+                         style="max-height: 160px; object-fit: cover;"
+                         loading="lazy"
+                         src="/static/uploads/${p.imagen}"
+                         alt="${p.nombre_producto}">
+                  </a>
+                  <figcaption>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                         class="bi bi-eye text-white bsb-hover-fadeInLeft" viewBox="0 0 16 16">
+                      <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                      <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                    </svg>
+                    <h4 class="h6 text-white bsb-hover-fadeInRight mt-2">Ver producto</h4>
+                  </figcaption>
+                </figure>
 
-                      <form action="/agregarCarrito/${p.idProducto}" method="POST">
-                        <input type="number" name="cantidad" value="1" min="1" max="${p.cantidad}" 
-                               class="form-control mb-2" ${p.cantidad==0 ? "disabled" : ""}>
-                        
-                        ${p.cantidad == 0 
-                          ? `<p class="text-danger">Producto agotado</p>` 
-                          : `<p class="text-muted">Disponibles: ${p.cantidad}</p>`}
+                <div class="card-body border-0 bg-white p-4">
+                  <h5 class="card-title">${p.nombre_producto}</h5>
+                  <p class="card-text text-secondary">${p.descripcion}</p>
+                  <p class="card-text"><strong>$${new Intl.NumberFormat().format(p.precio)}</strong></p>
 
-                        <button type="submit" 
-                          class="${p.cantidad==0 ? "btn-secondary" : "btn-success"} w-100"
-                          ${p.cantidad==0 ? "disabled" : ""}>Agregar al carrito</button>
-                      </form>
-                    </div>
-                  </div>
-                </article>
+                  <form action="/agregarCarrito/${p.idProducto}" method="POST">
+                    <input type="number" name="cantidad" value="1" min="1" max="${p.cantidad}"
+                           class="form-control mb-2" ${p.cantidad == 0 ? "disabled" : ""}>
+
+                    ${p.cantidad == 0
+                      ? `<p class="text-danger">Producto agotado</p>`
+                      : `<p class="text-success">Disponible: ${p.cantidad}</p>`}
+
+                    <button type="submit"
+                            class="${p.cantidad == 0 ? "btn-secondary disabled" : "btn-success"} w-100"
+                            ${p.cantidad == 0 ? "disabled" : ""}>
+                      Agregar al carrito
+                    </button>
+                  </form>
+                </div>
               </div>
-            `;
-          });
-        } else {
-          html = "<p>No se encontraron resultados.</p>";
-        }
+            </div>
+          `;
+        });
+      } else {
+        html = "<p class='text-center text-muted'>No se encontraron resultados.</p>";
+      }
 
-        document.getElementById("contenedor-productos").innerHTML = html;
-      })
-      .catch(err => console.error("Error en la búsqueda:", err));
+      document.getElementById("contenedor-productos").innerHTML = html;
+    })
+    .catch(err => console.error("Error en la búsqueda:", err));
 });
 </script>
+
 
 <script>
   function mostrarCategoria(idCategoria){
