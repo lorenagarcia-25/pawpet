@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2025 a las 15:13:16
+-- Tiempo de generación: 23-10-2025 a las 03:42:10
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -33,6 +33,14 @@ CREATE TABLE `carrito` (
   `fechaCreacion` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `carrito`
+--
+
+INSERT INTO `carrito` (`idCarrito`, `idUsuario`, `fechaCreacion`) VALUES
+(1, 14, '2025-10-21 19:19:27'),
+(2, 15, '2025-10-22 09:04:42');
+
 -- --------------------------------------------------------
 
 --
@@ -51,7 +59,13 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`idCategoria`, `nombre`, `descripcion`, `imagen`) VALUES
-(1, 'Alimentos', 'Alimentos para perros', 'perro-alimento-comercial.webp');
+(5, 'Higiene', 'Para perro, gato y roedor ', 'higene_mascotas.webp'),
+(7, 'Alimentos para perro ', 'Alimento', 'al.perros.png'),
+(9, 'Medicamentos', 'Para perro, gato y roedor ', 'medicamentos_mascotas.webp'),
+(10, 'Alimentos para gatos ', 'Alimento', 'comida.gatos.png'),
+(11, 'Alimentos Para roedores ', 'Alimento', 'al.conejos.png'),
+(12, 'Juguetes ', 'Para tu mascota', 'juguetes_mascotas.jpeg'),
+(13, 'Accesorios', 'Para tu mascota', 'accesorios_mascotas.webp');
 
 -- --------------------------------------------------------
 
@@ -65,6 +79,15 @@ CREATE TABLE `detalle_carrito` (
   `idProducto` int(11) NOT NULL,
   `cantidad` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `detalle_carrito`
+--
+
+INSERT INTO `detalle_carrito` (`idDetalle`, `IdCarrito`, `idProducto`, `cantidad`) VALUES
+(10, 1, 15, 1),
+(11, 1, 7, 1),
+(12, 1, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -132,8 +155,25 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`idProducto`, `nombre_producto`, `descripcion`, `precio`, `cantidad`, `fecha_vencimiento`, `imagen`, `idCategoria`) VALUES
-(1, 'higiene', 'shampoo', 20000, 4, '2025-10-20', 'Captura_de_pantalla_2025-09-24_231410.png', NULL),
-(2, 'dog chow', 'comida para perro', 5000, 1, NULL, 'descarga.jpeg', 1);
+(2, 'dog chow', 'comida para perro', 5000, 8, NULL, 'descarga.jpeg', 7),
+(6, 'Ringo', 'Alimento para perro', 5900, 4, NULL, 'descarga_1.jpeg', 7),
+(7, 'Alpo', 'Alimento', 6700, 3, NULL, 'comidsa_perro.webp', 7),
+(8, 'Dogourmet', 'Alimento', 4600, 2, NULL, 'perro3.png', 7),
+(9, 'Wiskat', 'Alimento húmedo', 4000, 5, NULL, 'al.gatos.png', 10),
+(10, 'Monello', 'Alimento', 8000, 10, NULL, 'cm.gatos.png', 10),
+(11, 'Q-ida cat', 'Alimento', 5800, 12, NULL, 'comida.gatos.png', 10),
+(12, 'Vitakraft', 'Alimento', 5000, 13, NULL, 'roedores_comioda.webp', 11),
+(13, 'Riga', 'Alimento', 5400, 15, NULL, 'roedores_comida.jpg', 11),
+(14, 'shampoo', 'Higiene', 7000, 7, NULL, 'shampoo.png', 5),
+(15, 'Pañitos', 'Higiene', 6700, 9, NULL, 'to.higiene.png', 5),
+(16, 'Peines', 'Higiene', 12000, 8, NULL, 'peines.png', 5),
+(17, 'Ratones para gatos', 'Juguetes', 8900, 17, NULL, 'ratones.webp', 12),
+(18, 'kit de juguetes para perro ', 'Juguetes', 20000, 20, NULL, 'kit_perro.webp', 12),
+(19, 'rueda de roedores ', 'Juguetes', 25000, 5, NULL, 'rueda.webp', 12),
+(20, 'Correas de perro', 'perro', 12000, 5, NULL, 'correa.png', 13),
+(21, 'transportador', 'Accesorio', 55000, 18, NULL, 'transportadores.png', 13),
+(22, 'Antipulgas para gatos ', 'Medicamentos', 8000, 8, NULL, 'antipulgas2.png', 9),
+(23, 'Antipulgas para perros', 'Medicamentos', 8500, 12, NULL, 'antipulgas3.png', 9);
 
 -- --------------------------------------------------------
 
@@ -188,10 +228,12 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`idUsuario`, `nombre`, `apellido`, `username`, `password`, `reset_token`, `token_expiry`) VALUES
 (3, 'lorens', 'garcia', 'lorena@gmail.com', 'scrypt:32768:8:1$ADTT1KAVY1PYljWX$334a72bfb78fc36278de3bdedd1df1ff8ade2e95465b2cae0f11ebc3ad02094f2332b259cac7f32f10c3c3bc1fa9a9c7ece1a3b63d5b025f9bbd7d66566cbe42', NULL, NULL),
-(4, 'Gabriela', 'Ortega', 'jeonmagalum@gmail.com', 'scrypt:32768:8:1$zovk1imkeLUJto1m$7cd412993bd0f2d0ba41903cfa39ef988c48cd2adaab1f26b066ea22bd7c40237f45517442289690472d4160f413f33d4c830e78e2cc9bef173fd64c3d6c2dd3', NULL, NULL),
+(4, 'Gabriela', 'Ortega', 'jeonmagalum@gmail.com', 'scrypt:32768:8:1$N7H3AlZZIzxM1QvV$c215430a946dad60fad3df1bf96351a1475fc72b78d9023d63a10ad418e78fe0ef7b37b602756c46636a0e8d4d1bee81a59d59be1b736122c9bf77787293407f', NULL, NULL),
 (5, 'maya', 'ortega', 'magalum8gm@gmail.com', 'scrypt:32768:8:1$Vk1jg8WGADisznnr$51824822e5ea79254a1ac35e01fb17a20847793d8138e4547ee7c352f0840e690a6f33cc05545a2c6f3f0c5e9223349b74dc394d2baf78dbacbeaeb1bdd829a7', NULL, NULL),
 (10, 'maya', 'ortega', 'maya@gmail.com', 'scrypt:32768:8:1$FiLVD7Ta83CF2K1C$63245d37e824ab8e58283f8d36ec9f96b3550267de8faa703add7c5bc403a4c2c92e8c7787f1e4c97cfdfe07b88c21b7bacec0b3a477708841c32cff91d65393', NULL, NULL),
-(11, 'Gabriela', 'Cuy', 'gabycuy@gmail.com', 'scrypt:32768:8:1$l0LFj4jDbWEyZhVw$7d7221f6dd8d7250981d687eb20f4c3871553de3092be2c087f4c286a05acd3b2a02159690843f88faa2721c9fe84ce6917f8fc93ca9d2c4935858d813b146a3', NULL, NULL);
+(13, 'sarid', 'morales', 'saridm@g', 'scrypt:32768:8:1$ElaeWuRIxxjcPFAe$47a0346ec0b6ff0757457a5ef6059a25cb555758c038b70aac61928cd0d56c578bd1e47ad563a7f002244ae01b9ac0b27435a10297cb9a4b713e61cca46ff965', NULL, NULL),
+(14, 'lorena', 'garcia', 'l@h', 'scrypt:32768:8:1$9mJA5JaySWhHG0pQ$8ef3841bb8a98c1de6c5671013439a389077a4380f0169c2400784f4f3d209c245e2cc4d600fd2fb93cb865ef3106c4a5abfe3b8785f558270df1519b11d1916', NULL, NULL),
+(15, 'lorena', 'garcia', 'lorenah@gmail.com', 'scrypt:32768:8:1$9IN3z1vyjRHKJ5Sc$6134fcc0a05a9bbaafda943b06c979c26ef15161332ed6ae3244d0df0dda9294a958f536b6551867a623e438d2e91e8042be206b69b57e33458fbb5e037851e5', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -209,11 +251,10 @@ CREATE TABLE `usuario_rol` (
 --
 
 INSERT INTO `usuario_rol` (`idUsuario`, `idRol`) VALUES
-(3, 1),
-(4, 1),
-(5, 2),
 (10, 2),
-(11, 1);
+(13, 2),
+(14, 1),
+(15, 2);
 
 --
 -- Índices para tablas volcadas
@@ -304,19 +345,19 @@ ALTER TABLE `usuario_rol`
 -- AUTO_INCREMENT de la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  MODIFY `idCarrito` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idCarrito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_carrito`
 --
 ALTER TABLE `detalle_carrito`
-  MODIFY `idDetalle` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idDetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_orden`
@@ -340,13 +381,13 @@ ALTER TABLE `ordenes`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_login`
 --
 ALTER TABLE `registro_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -358,7 +399,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas
