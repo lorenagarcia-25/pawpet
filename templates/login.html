@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
-{% block navbar %}{% endblock %}  <!-- hace q el menu no aparesca -->
+{% block navbar %}{% endblock %} <!-- hace q el menu no aparesca -->
 {% block title %} login {% endblock %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,116 +12,112 @@
   <link rel="shortcut icon" href="{{ url_for('static', filename='img/huellitas_felices.png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
   <div class="login-wrapper">
-    
+
     <!-- Panel izquierdo con imagen -->
     <div class="left-panel">
       <img src="{{ url_for('static', filename='img/login_perrito.png') }}" alt="Mascotas" class="mascotas-img">
     </div>
 
     <!-- Panel derecho con formulario -->
-  <div class="right-panel">
-  <h1>¡Bienvenido de nuevo!</h1>
-  <img src="{{ url_for('static', filename='img/usuario_logo.png') }}" class="user-icon">
-  <img src="{{ url_for('static', filename='img/huellitas_felices.png') }}" class="logo">
+    <div class="right-panel">
+      <h1>¡Bienvenido de nuevo!</h1>
+      <img src="{{ url_for('static', filename='img/usuario_logo.png') }}" class="user-icon">
+      <img src="{{ url_for('static', filename='img/huellitas_felices.png') }}" class="logo">
 
-  <div class="form-container">
-    <form action="{{ url_for('login') }}" method="POST">
-  
-      <input type="email" class="form-control" name="username" id="username" placeholder="name@example.com" required>
-      <label for="email" class="form-label"></label>
+      <div class="form-container">
+        <form action="{{ url_for('login') }}" method="POST">
 
-      
-      <input type="password" class="form-control" name="password" id="password" value="" placeholder="Contraseña" required>
-      <label for="password" class="form-label"></label>
+          <input type="email" class="form-control" name="username" id="username" placeholder="name@example.com"
+            required>
+          <label for="email" class="form-label"></label>
 
-      <div class="links">
-        <a href="{{ url_for('recuperar_contraseña') }}">¿Has olvidado tu Contraseña?</a>
-        <a href="{{ url_for('registrarse') }}">Registrarse</a>
+
+          <input type="password" class="form-control" name="password" id="password" value="" placeholder="Contraseña"
+            required>
+          <label for="password" class="form-label"></label>
+
+          <div class="links">
+            <a href="{{ url_for('recuperar_contraseña') }}">¿Has olvidado tu Contraseña?</a>
+            <a href="{{ url_for('registrarse') }}">Registrarse</a>
+          </div>
+
+          <!-- Botón para abrir el modal -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTerminos">
+            Autorizo
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="modalTerminos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-dialog-scrollable">
+              <div class="modal-content">
+
+                <!-- Encabezado del modal -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Términos y condiciones</h4>
+                  <button type="button" class="btn-close" disabled></button>
+                </div>
+
+                <!-- Cuerpo del modal -->
+                <div class="modal-body">
+                  <section class="terms">
+                    <!-- Aquí van todos tus términos legales -->
+                    <h1>📄 Términos y Condiciones de Uso</h1>
+                    <h2>Aplicación de Paw pet</h2>
+                    <h3>✅ 1. Aceptación de los Términos</h3><p>Al acceder y utilizar esta aplicación, el usuario acepta cumplir con los presentes términos y condiciones. Si no está de acuerdo, deberá abstenerse de utilizar la app.</p>
+                    <h3>🐾 2. Descripción del Servicio</h3><p>Esta aplicación está diseñada para ayudar a tiendas de mascotas a gestionar su inventario de productos, medicamentos, insumos y equipos.</p><ul><li>Registro de entradas y salidas</li><li>Alertas de stock bajo</li><li>Generación de reportes</li><li>Clasificación por categorías</li></ul>
+                    <h3>🔐 3. Registro y Seguridad</h3><ul><li>El usuario debe proporcionar información veraz y actualizada al registrarse.</li><li>Es responsable de mantener la confidencialidad de sus credenciales de acceso.</li><li>La app no se responsabiliza por accesos no autorizados derivados de negligencia del usuario.</li></ul>
+                    <h3>📋 4. Uso Permitido</h3><ul><li>El usuario se compromete a utilizar la app exclusivamente para fines legales y relacionados con la gestión del inventario de la tienda.</li><li>Queda prohibido el uso para actividades fraudulentas, ilegales o que afecten el funcionamiento del sistema.</li></ul>
+                    <h3>💡 5. Propiedad Intelectual</h3><ul><li>El software, diseño, logotipos y funcionalidades son propiedad de la empresa CODE GALSS.</li><li>El usuario no adquiere ningún derecho de propiedad sobre la app ni sus contenidos.</li></ul>
+                    <h3>🔒 6. Privacidad y Protección de Datos</h3><ul><li>La app recopila únicamente los datos necesarios para el funcionamiento del servicio (inventario, usuarios, actividad).</li><li>Estos datos no serán compartidos con terceros sin consentimiento, salvo obligación legal.</li><li>El usuario puede solicitar la eliminación de sus datos en cualquier momento.</li></ul>
+                    <h3>🔄 7. Modificaciones</h3><p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios serán notificados a través de la app o por correo electrónico.</p>
+                    <h3>⚖️ 8. Legislación Aplicable</h3><p>Estos términos se rigen por las leyes del país donde se encuentra registrada la empresa desarrolladora. Cualquier disputa será resuelta ante los tribunales competentes.</p></section></div required>
+
+                    <!-- Checkbox obligatorio -->
+                    <div class="form-check mt-3">
+                      <input class="form-check-input" type="checkbox" id="aceptoCheck">
+                      <label class="form-check-label" for="aceptoCheck">
+                        He leído y acepto los términos y condiciones
+                      </label>
+                    </div>
+                  </section>
+                </div>
+
+                <!-- Pie del modal -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" id="btnAceptar" disabled>Acepto</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Script de validación -->
+          <script>
+            const checkbox = document.getElementById('aceptoCheck');
+            const btnAceptar = document.getElementById('btnAceptar');
+
+            checkbox.addEventListener('change', function () {
+              btnAceptar.disabled = !this.checked;
+            });
+            btnAceptar.addEventListener('click', function () {
+              const modalElement = document.getElementById('modalTerminos');
+              const modal = bootstrap.Modal.getInstance(modalElement);
+              modal.hide();
+
+              // Aquí puedes agregar lógica adicional, como redirigir o guardar el consentimiento
+              console.log("Términos aceptados");
+            });
+          </script>
+
+          <button type="submit" class="cuadro">Siguiente</button>
+        </form>
       </div>
-      
-      <!-- Button to Open the Modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-  Autorizo
-</button>
-
-<!-- The Modal -->
-<div class="modal" id="myModal">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Terminos y condiciones</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-       <section class="terms">
-  <h1>📄 Términos y Condiciones de Uso</h1>
-  <h2>Aplicación de Inventario para Clínicas Veterinarias</h2>
-
-  <h3>✅ 1. Aceptación de los Términos</h3>
-  <p>Al acceder y utilizar esta aplicación, el usuario acepta cumplir con los presentes términos y condiciones. Si no está de acuerdo, deberá abstenerse de utilizar la app.</p>
-
-  <h3>🐾 2. Descripción del Servicio</h3>
-  <p>Esta aplicación está diseñada para ayudar a clínicas veterinarias a gestionar su inventario de productos, medicamentos, insumos y equipos.</p>
-  <ul>
-    <li>Registro de entradas y salidas</li>
-    <li>Alertas de stock bajo</li>
-    <li>Generación de reportes</li>
-    <li>Clasificación por categorías</li>
-  </ul>
-
-  <h3>🔐 3. Registro y Seguridad</h3>
-  <ul>
-    <li>El usuario debe proporcionar información veraz y actualizada al registrarse.</li>
-    <li>Es responsable de mantener la confidencialidad de sus credenciales de acceso.</li>
-    <li>La app no se responsabiliza por accesos no autorizados derivados de negligencia del usuario.</li>
-  </ul>
-
-  <h3>📋 4. Uso Permitido</h3>
-  <ul>
-    <li>El usuario se compromete a utilizar la app exclusivamente para fines legales y relacionados con la gestión veterinaria.</li>
-    <li>Queda prohibido el uso para actividades fraudulentas, ilegales o que afecten el funcionamiento del sistema.</li>
-  </ul>
-
-  <h3>💡 5. Propiedad Intelectual</h3>
-  <ul>
-    <li>El software, diseño, logotipos y funcionalidades son propiedad del desarrollador.</li>
-    <li>El usuario no adquiere ningún derecho de propiedad sobre la app ni sus contenidos.</li>
-  </ul>
-
-  <h3>🔒 6. Privacidad y Protección de Datos</h3>
-  <ul>
-    <li>La app recopila únicamente los datos necesarios para el funcionamiento del servicio (inventario, usuarios, actividad).</li>
-    <li>Estos datos no serán compartidos con terceros sin consentimiento, salvo obligación legal.</li>
-    <li>El usuario puede solicitar la eliminación de sus datos en cualquier momento.</li>
-  </ul>
-
-  <h3>🔄 7. Modificaciones</h3>
-  <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios serán notificados a través de la app o por correo electrónico.</p>
-
-  <h3>⚖️ 8. Legislación Aplicable</h3>
-  <p>Estos términos se rigen por las leyes del país donde se encuentra registrada la empresa desarrolladora. Cualquier disputa será resuelta ante los tribunales competentes.</p>
-</section>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Acepto</button>
-      </div>
-
     </div>
-  </div>
-</div>
-      <button type="submit" class="cuadro">Siguiente</button>
-    </form>
-  </div>
-</div>
 
 </body>
+
 </html>
- {% endblock %}
+{% endblock %}

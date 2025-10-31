@@ -151,6 +151,8 @@ def logout():
      flash("sesion cerrada correctamente")
      return redirect(url_for('login'))
  
+
+
  
  
 
