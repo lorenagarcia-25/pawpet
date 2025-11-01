@@ -144,6 +144,21 @@ def login():
         else:
             flash("usuario o contraseña incorrecta")
     return render_template('login.html')
+
+@app.route('/procesar', methods=['POST'])
+def procesar():
+    acepto = request.form.get('aceptoCheck')
+    
+    if acepto != 'on':
+        return "⚠️ Debes aceptar los términos y condiciones para continuar.", 400
+    
+    # Aquí puedes procesar el resto del formulario
+    return redirect(url_for('exito'))
+
+@app.route('/exito')
+def exito():
+    return "✅ ¡Formulario enviado correctamente!"
+
  
 @app.route ('/logout')
 def logout():
