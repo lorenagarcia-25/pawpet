@@ -1,4 +1,3 @@
-
 from flask import Flask, flash, redirect, render_template, request, url_for, session,jsonify
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
@@ -47,18 +46,42 @@ def enviar_correo_reset(email,token):
     Este enlace expirará en 1 hora.
     Si no lo solicitó, ignore este mensaje. """
 
-    remitente = 'jeonmagalum@gmail.com'
-    clave = 'twwg oxei qcrg inyd'
+    # Credenciales desde variables de entorno (mejor práctica)
+    remitente = os.environ.get('EMAIL_USER', 'jeonmagalum@gmail.com')  # configura EMAIL_USER en tu entorno
+    clave = os.environ.get('EMAIL_PASS')  # configura EMAIL_PASS (app password) en tu entorno
+    if not clave:
+        print("❌ EMAIL_PASS no configurada en variables de entorno. No se intentará enviar correo.")
+        return False
+
     mensaje = MIMEText(cuerpo)
     mensaje['Subject'] = 'Recuperar contraseña'
-    mensaje['From'] = 'jeonmagalum@gmail.com'
+    mensaje['From'] = remitente
     mensaje['To'] = email
 
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login(remitente,clave)
-    server.sendmail(remitente,email,mensaje.as_string())
-    server.quit()
+    try:
+        # Intento con SMTP + STARTTLS y timeout
+        server = smtplib.SMTP('smtp.gmail.com', 587, timeout=15)
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
+        server.login(remitente, clave)
+        server.sendmail(remitente, [email], mensaje.as_string())
+        server.quit()
+        print("Correo enviado correctamente (STARTTLS).")
+        return True
+    except Exception as e:
+        print("Error enviando correo con STARTTLS:", e)
+        # Intento de fallback con SSL
+        try:
+            server = smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=15)
+            server.login(remitente, clave)
+            server.sendmail(remitente, [email], mensaje.as_string())
+            server.quit()
+            print("Correo enviado correctamente (SSL fallback).")
+            return True
+        except Exception as e2:
+            print("Error en fallback SSL:", e2)
+            return False
 
 app = Flask(__name__)
 app.config["MYSQL_HOST"]= "localhost" #servidor xampp
@@ -105,7 +128,12 @@ def index():
 @app.route('/login', methods =['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username'] #se almacena en esta variable 
+        # Verificar que el usuario aceptó términos (campo oculto establecido al hacer "Aceptar")
+        if request.form.get('aceptado_confirmado') != '1':
+            flash("Debes aceptar los términos y condiciones antes de continuar.", "warning")
+            return render_template('login.html')
+
+        username = request.form['username']
         password_ingresada = request.form['password'] 
         
         cur = mysql.connection.cursor()#metodo cursor
@@ -208,11 +236,16 @@ def recuperar_contraseña():
         cur.close()
 
         if not existe:
-          flash("Este correo no está registrado.")
-          return redirect(url_for('recuperar_contraseña'))   
-     
+            flash("Este correo no está registrado.")
+            return redirect(url_for('recuperar_contraseña'))   
+
         token = generar_token(email)
-        enviar_correo_reset(email,token)
+        enviado = enviar_correo_reset(email,token)
+
+        if not enviado:
+            # Mensaje amigable; el error completo se imprime en consola
+            flash("No se pudo enviar el correo. Verifica la configuración de correo (EMAIL_USER/EMAIL_PASS), conexión de red o firewall.", "danger")
+            return redirect(url_for('recuperar_contraseña'))
 
         flash("Se le envío un correo con el enlace para restablecer su contraseña")
         return redirect(url_for('login'))
@@ -770,5 +803,5 @@ if __name__ == '__main__':
 
 
 
-    
+
 
